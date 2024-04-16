@@ -1,11 +1,11 @@
-DROP DATABASE IF EXISTS newHuskyLeagues;
+DROP DATABASE IF EXISTS HuskyLeagues;
 
-CREATE DATABASE newHuskyLeagues;
+CREATE DATABASE HuskyLeagues;
 
-USE newHuskyLeagues;
+USE HuskyLeagues;
 
 CREATE TABLE IF NOT EXISTS team_members (
-    memberID int,
+    memberID int auto_increment,
     firstName varchar(50),
     lastName varchar(50),
     email varchar(50),
@@ -13,14 +13,14 @@ CREATE TABLE IF NOT EXISTS team_members (
 );
 
 CREATE TABLE IF NOT EXISTS sports (
-    sportID int,
+    sportID int auto_increment,
     name varchar(50),
     rules text,
     PRIMARY KEY (sportID)
 );
 
 CREATE TABLE IF NOT EXISTS teams (
-    sportID int,
+    sportID int auto_increment,
     teamID int,
     name varchar(50),
     PRIMARY KEY (sportID, teamID),
@@ -30,7 +30,7 @@ CREATE TABLE IF NOT EXISTS teams (
 );
 
 CREATE TABLE IF NOT EXISTS roles (
-    roleID int,
+    roleID int auto_increment,
     name varchar(50),
     description text,
     PRIMARY KEY (roleID)
@@ -50,7 +50,7 @@ CREATE TABLE IF NOT EXISTS part_of (
 );
 
 CREATE TABLE IF NOT EXISTS admins (
-    adminID int,
+    adminID int auto_increment,
     firstName varchar(50),
     lastName varchar(50),
     email varchar(50),
@@ -61,14 +61,14 @@ CREATE TABLE IF NOT EXISTS admins (
 );
 
 CREATE TABLE IF NOT EXISTS sponsors (
-    sponsorID int,
+    sponsorID int auto_increment,
     name varchar(50),
     email varchar(50),
     PRIMARY KEY (sponsorID)
 );
 
 CREATE TABLE IF NOT EXISTS events (
-    eventID int,
+    eventID int auto_increment,
     description text,
     dateTime datetime,
     location varchar(50),
@@ -91,7 +91,7 @@ CREATE TABLE IF NOT EXISTS sponsorships (
 );
 
 CREATE TABLE IF NOT EXISTS games (
-    gameID int,
+    gameID int auto_increment,
     dateTime datetime,
     location varchar(50),
     team1_ID int,
@@ -110,7 +110,7 @@ CREATE TABLE IF NOT EXISTS games (
 );
 
 CREATE TABLE IF NOT EXISTS referees (
-    refID int,
+    refID int auto_increment,
     firstName varchar(50),
     lastName varchar(50),
     email varchar(50),
@@ -138,7 +138,7 @@ CREATE TABLE IF NOT EXISTS chooses (
 );
 
 CREATE TABLE IF NOT EXISTS fans (
-    fanID int,
+    fanID int auto_increment,
     firstName varchar(50),
     lastName varchar(50),
     email varchar(50),

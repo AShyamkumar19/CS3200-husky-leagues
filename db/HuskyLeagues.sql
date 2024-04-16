@@ -25,8 +25,7 @@ CREATE TABLE IF NOT EXISTS teams (
     name varchar(50),
     PRIMARY KEY (sportID, teamID),
     FOREIGN KEY (sportID) REFERENCES sports (sportID)
-                                 ON UPDATE CASCADE,
-    INDEX team_sport_index (teamID, sportID)
+                                 ON UPDATE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS roles (
@@ -94,19 +93,19 @@ CREATE TABLE IF NOT EXISTS games (
     gameID int,
     dateTime datetime,
     location varchar(50),
-    team1_ID int,
-    team2_ID int,
-    team1_score int,
-    team2_score int,
-    team1_sportID int,
-    team2_sportID int,
-    PRIMARY KEY (gameID),
-    FOREIGN KEY(team1_ID, team1_sportID) REFERENCES teams (teamID, sportID)
-                                 ON UPDATE CASCADE,
-    FOREIGN KEY (team2_ID, team2_sportID) REFERENCES teams(teamID, sportID)
-                                ON UPDATE CASCADE,
-    INDEX (team1_ID, team1_sportID),
-    INDEX (team2_ID, team2_sportID)
+    PRIMARY KEY (gameID)
+);
+
+CREATE TABLE team_game (
+    teamID int,
+    sportID int,
+    gameID int,
+    score int,
+    PRIMARY KEY (teamID, sportID, gameID),
+    FOREIGN KEY (sportID, teamID) REFERENCES teams (sportID, teamID)
+                       ON UPDATE CASCADE,
+    FOREIGN KEY (gameID) REFERENCES games (gameID)
+                       ON UPDATE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS referees (
@@ -910,66 +909,268 @@ insert into sponsorships (sponsorID, teamID, sportID, money) values (43, 60, 7, 
 insert into sponsorships (sponsorID, teamID, sportID, money) values (31, 60, 7, 110.66);
 
 # games data
-insert into games (gameID, dateTime, location, team1_ID, team2_ID, team1_score, team2_score, team1_sportID, team2_sportID) values (1, '2023-06-09 01:55:00', '89 Melrose Crossing', 45, 56, 3, 2, 2, 2);
-insert into games (gameID, dateTime, location, team1_ID, team2_ID, team1_score, team2_score, team1_sportID, team2_sportID) values (2, '2023-11-06 07:05:25', '5592 La Follette Parkway', 21, 25, 7, 3, 3, 3);
-insert into games (gameID, dateTime, location, team1_ID, team2_ID, team1_score, team2_score, team1_sportID, team2_sportID) values (3, '2024-03-02 04:29:51', '34 Bobwhite Crossing', 14, 19, 4, 2, 4, 4);
-insert into games (gameID, dateTime, location, team1_ID, team2_ID, team1_score, team2_score, team1_sportID, team2_sportID) values (4, '2023-06-14 08:25:12', '5338 Brentwood Trail', 1, 4, 8, 8, 5, 5);
-insert into games (gameID, dateTime, location, team1_ID, team2_ID, team1_score, team2_score, team1_sportID, team2_sportID) values (5, '2023-12-09 02:52:08', '17 Anthes Point', 17, 27, 4, 3, 6, 6);
-insert into games (gameID, dateTime, location, team1_ID, team2_ID, team1_score, team2_score, team1_sportID, team2_sportID) values (6, '2024-03-11 22:30:19', '4 Independence Way', 3, 11, 10, 3, 7, 7);
-insert into games (gameID, dateTime, location, team1_ID, team2_ID, team1_score, team2_score, team1_sportID, team2_sportID) values (7, '2023-12-28 18:57:42', '6955 Columbus Junction', 32, 39, 9, 2, 8, 8);
-insert into games (gameID, dateTime, location, team1_ID, team2_ID, team1_score, team2_score, team1_sportID, team2_sportID) values (8, '2023-06-17 12:18:32', '93108 Briar Crest Road', 10, 15, 5, 4, 9, 9);
-insert into games (gameID, dateTime, location, team1_ID, team2_ID, team1_score, team2_score, team1_sportID, team2_sportID) values (9, '2024-01-04 22:40:29', '29 Corben Park', 9, 20, 5, 2, 10, 10);
-insert into games (gameID, dateTime, location, team1_ID, team2_ID, team1_score, team2_score, team1_sportID, team2_sportID) values (10, '2023-06-17 23:49:34', '9063 Morning Plaza', 2, 5, 4, 2, 1, 1);
-insert into games (gameID, dateTime, location, team1_ID, team2_ID, team1_score, team2_score, team1_sportID, team2_sportID) values (11, '2023-06-13 15:52:09', '539 Pepper Wood Trail', 41, 45, 6, 2, 2, 2);
-insert into games (gameID, dateTime, location, team1_ID, team2_ID, team1_score, team2_score, team1_sportID, team2_sportID) values (12, '2023-06-17 10:40:57', '84 Di Loreto Hill', 21, 31, 3, 7, 3, 3);
-insert into games (gameID, dateTime, location, team1_ID, team2_ID, team1_score, team2_score, team1_sportID, team2_sportID) values (13, '2023-08-01 01:09:27', '054 Longview Parkway', 19, 29, 2, 3, 4, 4);
-insert into games (gameID, dateTime, location, team1_ID, team2_ID, team1_score, team2_score, team1_sportID, team2_sportID) values (14, '2023-09-06 23:23:28', '453 Atwood Court', 1, 13, 5, 7, 5, 5);
-insert into games (gameID, dateTime, location, team1_ID, team2_ID, team1_score, team2_score, team1_sportID, team2_sportID) values (15, '2023-06-09 06:20:23', '91057 Del Sol Drive', 27, 28, 3, 9, 6, 6);
-insert into games (gameID, dateTime, location, team1_ID, team2_ID, team1_score, team2_score, team1_sportID, team2_sportID) values (16, '2023-06-14 10:27:14', '605 Corry Way', 11, 33, 3, 6, 7, 7);
-insert into games (gameID, dateTime, location, team1_ID, team2_ID, team1_score, team2_score, team1_sportID, team2_sportID) values (17, '2023-06-05 23:30:23', '5 Judy Terrace', 32, 54, 9, 5, 8, 8);
-insert into games (gameID, dateTime, location, team1_ID, team2_ID, team1_score, team2_score, team1_sportID, team2_sportID) values (18, '2024-02-27 20:10:31', '825 Oak Street', 15, 16, 3, 2, 9, 9);
-insert into games (gameID, dateTime, location, team1_ID, team2_ID, team1_score, team2_score, team1_sportID, team2_sportID) values (19, '2023-10-06 17:32:53', '26314 Banding Junction', 20, 26, 9, 2, 10, 10);
-insert into games (gameID, dateTime, location, team1_ID, team2_ID, team1_score, team2_score, team1_sportID, team2_sportID) values (20, '2024-02-05 03:29:58', '442 Heffernan Hill', 22, 30, 7, 5, 1, 1);
-insert into games (gameID, dateTime, location, team1_ID, team2_ID, team1_score, team2_score, team1_sportID, team2_sportID) values (21, '2024-04-03 20:17:29', '39 Golden Leaf Center', 45, 56, 5, 9, 2, 2);
-insert into games (gameID, dateTime, location, team1_ID, team2_ID, team1_score, team2_score, team1_sportID, team2_sportID) values (22, '2023-09-30 14:23:16', '4346 Crownhardt Trail', 31, 25, 4, 4, 3, 3);
-insert into games (gameID, dateTime, location, team1_ID, team2_ID, team1_score, team2_score, team1_sportID, team2_sportID) values (23, '2023-08-13 23:18:04', '06571 Tennessee Avenue', 29, 40, 8, 6, 4, 4);
-insert into games (gameID, dateTime, location, team1_ID, team2_ID, team1_score, team2_score, team1_sportID, team2_sportID) values (24, '2024-03-05 13:25:28', '248 Lawn Lane', 13, 12, 9, 10, 5, 5);
-insert into games (gameID, dateTime, location, team1_ID, team2_ID, team1_score, team2_score, team1_sportID, team2_sportID) values (25, '2023-06-13 18:07:20', '72 Sheridan Pass', 27, 47, 5, 8, 6, 6);
-insert into games (gameID, dateTime, location, team1_ID, team2_ID, team1_score, team2_score, team1_sportID, team2_sportID) values (26, '2023-08-11 02:04:08', '2380 Derek Lane', 33, 44, 1, 9, 7, 7);
-insert into games (gameID, dateTime, location, team1_ID, team2_ID, team1_score, team2_score, team1_sportID, team2_sportID) values (27, '2023-10-09 13:53:55', '76110 Colorado Pass', 39, 54, 6, 9, 8, 8);
-insert into games (gameID, dateTime, location, team1_ID, team2_ID, team1_score, team2_score, team1_sportID, team2_sportID) values (28, '2024-01-20 04:58:01', '3 Hagan Avenue', 24, 15, 8, 6, 9, 9);
-insert into games (gameID, dateTime, location, team1_ID, team2_ID, team1_score, team2_score, team1_sportID, team2_sportID) values (29, '2023-06-24 17:20:49', '8440 Prentice Crossing', 9, 26, 5, 5, 10, 10);
-insert into games (gameID, dateTime, location, team1_ID, team2_ID, team1_score, team2_score, team1_sportID, team2_sportID) values (30, '2023-08-18 00:09:49', '27 Sachs Way', 22, 2, 2, 5, 1, 1);
-insert into games (gameID, dateTime, location, team1_ID, team2_ID, team1_score, team2_score, team1_sportID, team2_sportID) values (31, '2023-07-17 13:03:04', '174 Lukken Hill', 56, 57, 4, 2, 2, 2);
-insert into games (gameID, dateTime, location, team1_ID, team2_ID, team1_score, team2_score, team1_sportID, team2_sportID) values (32, '2024-02-11 19:54:00', '513 International Lane', 37, 25, 7, 10, 3, 3);
-insert into games (gameID, dateTime, location, team1_ID, team2_ID, team1_score, team2_score, team1_sportID, team2_sportID) values (33, '2023-11-24 20:06:01', '5 Grim Road', 40, 19, 2, 4, 4, 4);
-insert into games (gameID, dateTime, location, team1_ID, team2_ID, team1_score, team2_score, team1_sportID, team2_sportID) values (34, '2023-07-29 08:58:29', '44 Sundown Alley', 18, 23, 9, 6, 5, 5);
-insert into games (gameID, dateTime, location, team1_ID, team2_ID, team1_score, team2_score, team1_sportID, team2_sportID) values (35, '2023-05-24 02:24:16', '22 Gina Center', 47, 28, 5, 6, 6, 6);
-insert into games (gameID, dateTime, location, team1_ID, team2_ID, team1_score, team2_score, team1_sportID, team2_sportID) values (36, '2023-06-19 00:09:15', '8971 Shopko Circle', 3, 44, 4, 8, 7, 7);
-insert into games (gameID, dateTime, location, team1_ID, team2_ID, team1_score, team2_score, team1_sportID, team2_sportID) values (37, '2023-05-10 13:17:17', '9 Reindahl Place', 54, 55, 2, 3, 8, 8);
-insert into games (gameID, dateTime, location, team1_ID, team2_ID, team1_score, team2_score, team1_sportID, team2_sportID) values (38, '2023-07-25 17:21:02', '2 Northridge Park', 35, 38, 7, 4, 9, 9);
-insert into games (gameID, dateTime, location, team1_ID, team2_ID, team1_score, team2_score, team1_sportID, team2_sportID) values (39, '2023-09-28 08:03:39', '04605 Carioca Avenue', 26, 9, 10, 10, 10, 10);
-insert into games (gameID, dateTime, location, team1_ID, team2_ID, team1_score, team2_score, team1_sportID, team2_sportID) values (40, '2023-04-15 03:20:55', '14665 Carpenter Drive', 30, 49, 6, 4, 1, 1);
-insert into games (gameID, dateTime, location, team1_ID, team2_ID, team1_score, team2_score, team1_sportID, team2_sportID) values (41, '2023-11-25 20:38:51', '178 Killdeer Court', 45, 57, 10, 8, 2, 2);
-insert into games (gameID, dateTime, location, team1_ID, team2_ID, team1_score, team2_score, team1_sportID, team2_sportID) values (42, '2024-03-23 23:03:34', '32681 Meadow Valley Trail', 37, 21, 8, 9, 3, 3);
-insert into games (gameID, dateTime, location, team1_ID, team2_ID, team1_score, team2_score, team1_sportID, team2_sportID) values (43, '2023-10-14 19:15:48', '579 Delladonna Way', 42, 51, 10, 2, 4, 4);
-insert into games (gameID, dateTime, location, team1_ID, team2_ID, team1_score, team2_score, team1_sportID, team2_sportID) values (44, '2024-03-09 18:35:24', '3696 Monica Terrace', 36, 43, 7, 8, 5, 5);
-insert into games (gameID, dateTime, location, team1_ID, team2_ID, team1_score, team2_score, team1_sportID, team2_sportID) values (45, '2023-11-16 17:40:15', '73 Redwing Lane', 50, 47, 6, 2, 6, 6);
-insert into games (gameID, dateTime, location, team1_ID, team2_ID, team1_score, team2_score, team1_sportID, team2_sportID) values (46, '2023-08-25 20:05:48', '5 Debs Parkway', 60, 44, 1, 8, 7, 7);
-insert into games (gameID, dateTime, location, team1_ID, team2_ID, team1_score, team2_score, team1_sportID, team2_sportID) values (47, '2023-04-28 14:58:54', '1782 Schlimgen Junction', 55, 32, 7, 9, 8, 8);
-insert into games (gameID, dateTime, location, team1_ID, team2_ID, team1_score, team2_score, team1_sportID, team2_sportID) values (48, '2023-04-27 17:05:19', '6 Fisk Way', 48, 35, 7, 7, 9, 9);
-insert into games (gameID, dateTime, location, team1_ID, team2_ID, team1_score, team2_score, team1_sportID, team2_sportID) values (49, '2023-09-19 14:13:35', '9781 Thackeray Place', 26, 20, 1, 4, 10, 10);
-insert into games (gameID, dateTime, location, team1_ID, team2_ID, team1_score, team2_score, team1_sportID, team2_sportID) values (50, '2024-02-27 13:50:08', '06018 Old Gate Street', 58, 5, 2, 9, 1, 1);
-insert into games (gameID, dateTime, location, team1_ID, team2_ID, team1_score, team2_score, team1_sportID, team2_sportID) values (51, '2024-02-08 04:05:11', '439 Columbus Drive', 41, 57, 8, 8, 2, 2);
-insert into games (gameID, dateTime, location, team1_ID, team2_ID, team1_score, team2_score, team1_sportID, team2_sportID) values (52, '2024-01-16 00:57:28', '70387 Westerfield Junction', 31, 37, 3, 8, 3, 3);
-insert into games (gameID, dateTime, location, team1_ID, team2_ID, team1_score, team2_score, team1_sportID, team2_sportID) values (53, '2024-03-10 08:37:54', '9367 Mockingbird Road', 52, 53, 3, 2, 4, 4);
-insert into games (gameID, dateTime, location, team1_ID, team2_ID, team1_score, team2_score, team1_sportID, team2_sportID) values (54, '2024-01-17 09:03:30', '4 Nobel Court', 43, 18, 9, 1, 5, 5);
-insert into games (gameID, dateTime, location, team1_ID, team2_ID, team1_score, team2_score, team1_sportID, team2_sportID) values (55, '2024-04-02 19:36:03', '10 Anhalt Lane', 47, 17, 7, 8, 6, 6);
-insert into games (gameID, dateTime, location, team1_ID, team2_ID, team1_score, team2_score, team1_sportID, team2_sportID) values (56, '2023-07-20 03:27:58', '79 Portage Center', 33, 3, 10, 9, 7, 7);
-insert into games (gameID, dateTime, location, team1_ID, team2_ID, team1_score, team2_score, team1_sportID, team2_sportID) values (57, '2023-08-19 19:40:00', '29 Warrior Way', 54, 32, 7, 4, 8, 8);
-insert into games (gameID, dateTime, location, team1_ID, team2_ID, team1_score, team2_score, team1_sportID, team2_sportID) values (58, '2024-04-12 06:09:27', '706 Jana Center', 35, 10, 8, 3, 9, 9);
-insert into games (gameID, dateTime, location, team1_ID, team2_ID, team1_score, team2_score, team1_sportID, team2_sportID) values (59, '2023-12-31 15:29:33', '77 4th Place', 20, 9, 3, 2, 10, 10);
-insert into games (gameID, dateTime, location, team1_ID, team2_ID, team1_score, team2_score, team1_sportID, team2_sportID) values (60, '2023-11-22 06:41:26', '1939 Mcbride Park', 49, 30, 9, 3, 1, 1);
+insert into games (gameID, dateTime, location) values (1, '2023-11-04 22:40:36', '132 Novick Street');
+insert into games (gameID, dateTime, location) values (2, '2023-04-16 06:58:32', '25 Oak Avenue');
+insert into games (gameID, dateTime, location) values (3, '2024-03-28 17:41:30', '52 Oneill Point');
+insert into games (gameID, dateTime, location) values (4, '2023-12-20 09:09:41', '85780 Cascade Park');
+insert into games (gameID, dateTime, location) values (5, '2024-03-02 21:40:43', '3 Autumn Leaf Parkway');
+insert into games (gameID, dateTime, location) values (6, '2023-12-01 16:57:11', '8 Briar Crest Drive');
+insert into games (gameID, dateTime, location) values (7, '2023-06-08 06:59:16', '652 Novick Park');
+insert into games (gameID, dateTime, location) values (8, '2024-01-28 13:44:47', '7718 Kropf Place');
+insert into games (gameID, dateTime, location) values (9, '2023-08-05 20:49:51', '18 Mallory Pass');
+insert into games (gameID, dateTime, location) values (10, '2023-07-29 07:12:24', '7296 Westend Hill');
+insert into games (gameID, dateTime, location) values (11, '2024-03-10 19:04:11', '175 Utah Alley');
+insert into games (gameID, dateTime, location) values (12, '2023-10-16 02:44:27', '1393 Darwin Pass');
+insert into games (gameID, dateTime, location) values (13, '2024-03-19 06:36:33', '4 Crest Line Lane');
+insert into games (gameID, dateTime, location) values (14, '2023-04-29 15:20:22', '548 Manley Hill');
+insert into games (gameID, dateTime, location) values (15, '2023-08-25 20:11:58', '294 Petterle Trail');
+insert into games (gameID, dateTime, location) values (16, '2023-06-08 17:15:22', '81 Springs Road');
+insert into games (gameID, dateTime, location) values (17, '2023-06-18 12:51:35', '02 Delladonna Hill');
+insert into games (gameID, dateTime, location) values (18, '2024-02-15 00:48:43', '57994 Ridgeway Trail');
+insert into games (gameID, dateTime, location) values (19, '2023-10-31 03:04:49', '87567 Canary Hill');
+insert into games (gameID, dateTime, location) values (20, '2023-07-14 06:30:16', '4165 Blackbird Pass');
+insert into games (gameID, dateTime, location) values (21, '2023-06-29 00:18:49', '33402 Rigney Place');
+insert into games (gameID, dateTime, location) values (22, '2023-04-17 01:46:34', '132 Oxford Terrace');
+insert into games (gameID, dateTime, location) values (23, '2024-01-02 18:42:29', '7 Porter Hill');
+insert into games (gameID, dateTime, location) values (24, '2023-10-22 22:43:10', '79 Mallard Street');
+insert into games (gameID, dateTime, location) values (25, '2023-12-11 23:58:39', '87 Waubesa Circle');
+insert into games (gameID, dateTime, location) values (26, '2023-10-27 04:05:32', '95760 Esch Junction');
+insert into games (gameID, dateTime, location) values (27, '2024-04-01 04:07:45', '97054 Tony Plaza');
+insert into games (gameID, dateTime, location) values (28, '2023-12-17 02:00:41', '07 Comanche Road');
+insert into games (gameID, dateTime, location) values (29, '2023-09-18 10:47:22', '584 Heath Drive');
+insert into games (gameID, dateTime, location) values (30, '2023-09-29 23:29:21', '244 Aberg Drive');
+insert into games (gameID, dateTime, location) values (31, '2023-11-26 08:00:03', '8 Pleasure Plaza');
+insert into games (gameID, dateTime, location) values (32, '2024-03-04 05:50:34', '3 Forest Run Way');
+insert into games (gameID, dateTime, location) values (33, '2023-10-16 22:59:03', '48229 Russell Circle');
+insert into games (gameID, dateTime, location) values (34, '2023-12-12 23:25:29', '69 Lukken Court');
+insert into games (gameID, dateTime, location) values (35, '2023-06-23 09:41:45', '056 Macpherson Point');
+insert into games (gameID, dateTime, location) values (36, '2023-05-03 05:49:00', '767 5th Hill');
+insert into games (gameID, dateTime, location) values (37, '2023-04-24 13:37:10', '61 Continental Circle');
+insert into games (gameID, dateTime, location) values (38, '2023-08-29 18:18:24', '612 Rieder Junction');
+insert into games (gameID, dateTime, location) values (39, '2024-02-29 20:00:28', '23 Everett Terrace');
+insert into games (gameID, dateTime, location) values (40, '2023-06-03 23:47:18', '4 Garrison Street');
+insert into games (gameID, dateTime, location) values (41, '2024-03-24 14:12:33', '5408 Dennis Way');
+insert into games (gameID, dateTime, location) values (42, '2024-02-24 08:41:40', '92533 Main Circle');
+insert into games (gameID, dateTime, location) values (43, '2024-03-14 03:57:58', '7 Grim Road');
+insert into games (gameID, dateTime, location) values (44, '2023-05-14 15:07:54', '5 Laurel Point');
+insert into games (gameID, dateTime, location) values (45, '2023-06-12 20:31:22', '19221 Butternut Alley');
+insert into games (gameID, dateTime, location) values (46, '2023-11-12 22:41:21', '27 Trailsway Place');
+insert into games (gameID, dateTime, location) values (47, '2023-10-26 03:00:21', '1 Clyde Gallagher Court');
+insert into games (gameID, dateTime, location) values (48, '2023-10-06 10:26:43', '27 Pepper Wood Trail');
+insert into games (gameID, dateTime, location) values (49, '2023-10-20 05:58:31', '7692 Maryland Place');
+insert into games (gameID, dateTime, location) values (50, '2023-10-10 22:07:39', '7947 Hoffman Circle');
+insert into games (gameID, dateTime, location) values (51, '2023-08-09 22:33:45', '34 Valley Edge Park');
+insert into games (gameID, dateTime, location) values (52, '2024-01-11 14:13:32', '2715 Bunting Park');
+insert into games (gameID, dateTime, location) values (53, '2023-11-04 04:25:59', '425 Towne Crossing');
+insert into games (gameID, dateTime, location) values (54, '2023-05-09 03:56:13', '808 Mandrake Park');
+insert into games (gameID, dateTime, location) values (55, '2023-08-30 22:14:28', '6017 Dapin Place');
+insert into games (gameID, dateTime, location) values (56, '2023-04-17 10:11:58', '3678 Holmberg Drive');
+insert into games (gameID, dateTime, location) values (57, '2023-07-13 23:59:24', '600 Swallow Way');
+insert into games (gameID, dateTime, location) values (58, '2024-04-07 17:26:59', '566 Hazelcrest Trail');
+insert into games (gameID, dateTime, location) values (59, '2023-05-24 01:45:02', '0561 Dorton Junction');
+insert into games (gameID, dateTime, location) values (60, '2023-08-17 14:04:05', '019 Corry Lane');
+
+# team_game data
+insert into team_game (teamID, sportID, gameID, score) values (1, 5, 22, 1);
+insert into team_game (teamID, sportID, gameID, score) values (1, 5, 48, 7);
+insert into team_game (teamID, sportID, gameID, score) values (1, 5, 30, 9);
+insert into team_game (teamID, sportID, gameID, score) values (1, 5, 38, 3);
+insert into team_game (teamID, sportID, gameID, score) values (2, 1, 57, 3);
+insert into team_game (teamID, sportID, gameID, score) values (2, 1, 47, 9);
+insert into team_game (teamID, sportID, gameID, score) values (2, 1, 2, 3);
+insert into team_game (teamID, sportID, gameID, score) values (2, 1, 30, 4);
+insert into team_game (teamID, sportID, gameID, score) values (3, 7, 23, 10);
+insert into team_game (teamID, sportID, gameID, score) values (3, 7, 8, 10);
+insert into team_game (teamID, sportID, gameID, score) values (3, 7, 22, 10);
+insert into team_game (teamID, sportID, gameID, score) values (3, 7, 43, 10);
+insert into team_game (teamID, sportID, gameID, score) values (4, 5, 12, 5);
+insert into team_game (teamID, sportID, gameID, score) values (4, 5, 6, 1);
+insert into team_game (teamID, sportID, gameID, score) values (4, 5, 57, 8);
+insert into team_game (teamID, sportID, gameID, score) values (4, 5, 54, 9);
+insert into team_game (teamID, sportID, gameID, score) values (5, 1, 9, 3);
+insert into team_game (teamID, sportID, gameID, score) values (5, 1, 25, 5);
+insert into team_game (teamID, sportID, gameID, score) values (5, 1, 32, 1);
+insert into team_game (teamID, sportID, gameID, score) values (5, 1, 55, 7);
+insert into team_game (teamID, sportID, gameID, score) values (6, 5, 27, 9);
+insert into team_game (teamID, sportID, gameID, score) values (6, 5, 28, 2);
+insert into team_game (teamID, sportID, gameID, score) values (6, 5, 53, 6);
+insert into team_game (teamID, sportID, gameID, score) values (6, 5, 33, 9);
+insert into team_game (teamID, sportID, gameID, score) values (7, 1, 59, 10);
+insert into team_game (teamID, sportID, gameID, score) values (7, 1, 51, 2);
+insert into team_game (teamID, sportID, gameID, score) values (7, 1, 42, 8);
+insert into team_game (teamID, sportID, gameID, score) values (7, 1, 34, 8);
+insert into team_game (teamID, sportID, gameID, score) values (8, 1, 49, 10);
+insert into team_game (teamID, sportID, gameID, score) values (8, 1, 1, 9);
+insert into team_game (teamID, sportID, gameID, score) values (8, 1, 21, 1);
+insert into team_game (teamID, sportID, gameID, score) values (8, 1, 46, 8);
+insert into team_game (teamID, sportID, gameID, score) values (9, 10, 47, 10);
+insert into team_game (teamID, sportID, gameID, score) values (9, 10, 1, 4);
+insert into team_game (teamID, sportID, gameID, score) values (9, 10, 35, 4);
+insert into team_game (teamID, sportID, gameID, score) values (9, 10, 49, 10);
+insert into team_game (teamID, sportID, gameID, score) values (10, 9, 23, 5);
+insert into team_game (teamID, sportID, gameID, score) values (10, 9, 40, 8);
+insert into team_game (teamID, sportID, gameID, score) values (10, 9, 55, 9);
+insert into team_game (teamID, sportID, gameID, score) values (10, 9, 27, 3);
+insert into team_game (teamID, sportID, gameID, score) values (11, 7, 8, 6);
+insert into team_game (teamID, sportID, gameID, score) values (11, 7, 30, 4);
+insert into team_game (teamID, sportID, gameID, score) values (11, 7, 25, 6);
+insert into team_game (teamID, sportID, gameID, score) values (11, 7, 20, 9);
+insert into team_game (teamID, sportID, gameID, score) values (12, 5, 24, 8);
+insert into team_game (teamID, sportID, gameID, score) values (12, 5, 60, 10);
+insert into team_game (teamID, sportID, gameID, score) values (12, 5, 10, 4);
+insert into team_game (teamID, sportID, gameID, score) values (12, 5, 8, 10);
+insert into team_game (teamID, sportID, gameID, score) values (13, 5, 46, 8);
+insert into team_game (teamID, sportID, gameID, score) values (13, 5, 41, 7);
+insert into team_game (teamID, sportID, gameID, score) values (13, 5, 52, 4);
+insert into team_game (teamID, sportID, gameID, score) values (13, 5, 1, 3);
+insert into team_game (teamID, sportID, gameID, score) values (14, 4, 31, 1);
+insert into team_game (teamID, sportID, gameID, score) values (14, 4, 52, 9);
+insert into team_game (teamID, sportID, gameID, score) values (14, 4, 30, 2);
+insert into team_game (teamID, sportID, gameID, score) values (14, 4, 2, 2);
+insert into team_game (teamID, sportID, gameID, score) values (15, 9, 36, 4);
+insert into team_game (teamID, sportID, gameID, score) values (15, 9, 2, 4);
+insert into team_game (teamID, sportID, gameID, score) values (15, 9, 46, 2);
+insert into team_game (teamID, sportID, gameID, score) values (15, 9, 47, 4);
+insert into team_game (teamID, sportID, gameID, score) values (16, 9, 20, 3);
+insert into team_game (teamID, sportID, gameID, score) values (16, 9, 59, 10);
+insert into team_game (teamID, sportID, gameID, score) values (16, 9, 42, 3);
+insert into team_game (teamID, sportID, gameID, score) values (16, 9, 5, 5);
+insert into team_game (teamID, sportID, gameID, score) values (17, 6, 39, 2);
+insert into team_game (teamID, sportID, gameID, score) values (17, 6, 32, 10);
+insert into team_game (teamID, sportID, gameID, score) values (17, 6, 28, 8);
+insert into team_game (teamID, sportID, gameID, score) values (17, 6, 11, 3);
+insert into team_game (teamID, sportID, gameID, score) values (18, 5, 17, 5);
+insert into team_game (teamID, sportID, gameID, score) values (18, 5, 19, 5);
+insert into team_game (teamID, sportID, gameID, score) values (18, 5, 2, 9);
+insert into team_game (teamID, sportID, gameID, score) values (18, 5, 55, 9);
+insert into team_game (teamID, sportID, gameID, score) values (19, 4, 49, 4);
+insert into team_game (teamID, sportID, gameID, score) values (19, 4, 27, 2);
+insert into team_game (teamID, sportID, gameID, score) values (19, 4, 23, 4);
+insert into team_game (teamID, sportID, gameID, score) values (19, 4, 33, 6);
+insert into team_game (teamID, sportID, gameID, score) values (20, 10, 27, 5);
+insert into team_game (teamID, sportID, gameID, score) values (20, 10, 41, 3);
+insert into team_game (teamID, sportID, gameID, score) values (20, 10, 34, 7);
+insert into team_game (teamID, sportID, gameID, score) values (20, 10, 9, 10);
+insert into team_game (teamID, sportID, gameID, score) values (21, 3, 10, 6);
+insert into team_game (teamID, sportID, gameID, score) values (21, 3, 18, 2);
+insert into team_game (teamID, sportID, gameID, score) values (21, 3, 26, 10);
+insert into team_game (teamID, sportID, gameID, score) values (22, 1, 28, 10);
+insert into team_game (teamID, sportID, gameID, score) values (22, 1, 31, 10);
+insert into team_game (teamID, sportID, gameID, score) values (22, 1, 44, 10);
+insert into team_game (teamID, sportID, gameID, score) values (23, 5, 51, 1);
+insert into team_game (teamID, sportID, gameID, score) values (23, 5, 43, 1);
+insert into team_game (teamID, sportID, gameID, score) values (23, 5, 12, 4);
+insert into team_game (teamID, sportID, gameID, score) values (24, 9, 29, 5);
+insert into team_game (teamID, sportID, gameID, score) values (24, 9, 35, 4);
+insert into team_game (teamID, sportID, gameID, score) values (24, 9, 43, 3);
+insert into team_game (teamID, sportID, gameID, score) values (25, 3, 6, 1);
+insert into team_game (teamID, sportID, gameID, score) values (25, 3, 57, 3);
+insert into team_game (teamID, sportID, gameID, score) values (25, 3, 55, 8);
+insert into team_game (teamID, sportID, gameID, score) values (26, 10, 4, 3);
+insert into team_game (teamID, sportID, gameID, score) values (26, 10, 54, 1);
+insert into team_game (teamID, sportID, gameID, score) values (26, 10, 50, 1);
+insert into team_game (teamID, sportID, gameID, score) values (27, 6, 23, 1);
+insert into team_game (teamID, sportID, gameID, score) values (27, 6, 48, 9);
+insert into team_game (teamID, sportID, gameID, score) values (27, 6, 11, 10);
+insert into team_game (teamID, sportID, gameID, score) values (28, 6, 59, 4);
+insert into team_game (teamID, sportID, gameID, score) values (28, 6, 2, 7);
+insert into team_game (teamID, sportID, gameID, score) values (28, 6, 53, 3);
+insert into team_game (teamID, sportID, gameID, score) values (29, 4, 58, 8);
+insert into team_game (teamID, sportID, gameID, score) values (29, 4, 10, 7);
+insert into team_game (teamID, sportID, gameID, score) values (29, 4, 17, 3);
+insert into team_game (teamID, sportID, gameID, score) values (30, 1, 32, 8);
+insert into team_game (teamID, sportID, gameID, score) values (30, 1, 7, 3);
+insert into team_game (teamID, sportID, gameID, score) values (30, 1, 60, 10);
+insert into team_game (teamID, sportID, gameID, score) values (31, 3, 55, 10);
+insert into team_game (teamID, sportID, gameID, score) values (31, 3, 2, 9);
+insert into team_game (teamID, sportID, gameID, score) values (31, 3, 41, 1);
+insert into team_game (teamID, sportID, gameID, score) values (32, 8, 33, 1);
+insert into team_game (teamID, sportID, gameID, score) values (32, 8, 20, 1);
+insert into team_game (teamID, sportID, gameID, score) values (32, 8, 6, 10);
+insert into team_game (teamID, sportID, gameID, score) values (33, 7, 16, 1);
+insert into team_game (teamID, sportID, gameID, score) values (33, 7, 27, 10);
+insert into team_game (teamID, sportID, gameID, score) values (33, 7, 12, 6);
+insert into team_game (teamID, sportID, gameID, score) values (34, 1, 23, 8);
+insert into team_game (teamID, sportID, gameID, score) values (34, 1, 43, 8);
+insert into team_game (teamID, sportID, gameID, score) values (34, 1, 38, 10);
+insert into team_game (teamID, sportID, gameID, score) values (35, 9, 57, 1);
+insert into team_game (teamID, sportID, gameID, score) values (35, 9, 17, 7);
+insert into team_game (teamID, sportID, gameID, score) values (35, 9, 18, 2);
+insert into team_game (teamID, sportID, gameID, score) values (36, 5, 57, 5);
+insert into team_game (teamID, sportID, gameID, score) values (36, 5, 39, 2);
+insert into team_game (teamID, sportID, gameID, score) values (36, 5, 10, 3);
+insert into team_game (teamID, sportID, gameID, score) values (37, 3, 28, 2);
+insert into team_game (teamID, sportID, gameID, score) values (37, 3, 31, 4);
+insert into team_game (teamID, sportID, gameID, score) values (37, 3, 35, 10);
+insert into team_game (teamID, sportID, gameID, score) values (38, 9, 26, 9);
+insert into team_game (teamID, sportID, gameID, score) values (38, 9, 60, 2);
+insert into team_game (teamID, sportID, gameID, score) values (38, 9, 18, 2);
+insert into team_game (teamID, sportID, gameID, score) values (39, 8, 20, 3);
+insert into team_game (teamID, sportID, gameID, score) values (39, 8, 58, 5);
+insert into team_game (teamID, sportID, gameID, score) values (39, 8, 12, 4);
+insert into team_game (teamID, sportID, gameID, score) values (40, 4, 40, 2);
+insert into team_game (teamID, sportID, gameID, score) values (40, 4, 23, 6);
+insert into team_game (teamID, sportID, gameID, score) values (40, 4, 27, 10);
+insert into team_game (teamID, sportID, gameID, score) values (41, 2, 42, 3);
+insert into team_game (teamID, sportID, gameID, score) values (41, 2, 9, 5);
+insert into team_game (teamID, sportID, gameID, score) values (41, 2, 51, 5);
+insert into team_game (teamID, sportID, gameID, score) values (42, 4, 31, 7);
+insert into team_game (teamID, sportID, gameID, score) values (42, 4, 27, 1);
+insert into team_game (teamID, sportID, gameID, score) values (42, 4, 52, 4);
+insert into team_game (teamID, sportID, gameID, score) values (43, 5, 18, 8);
+insert into team_game (teamID, sportID, gameID, score) values (43, 5, 3, 4);
+insert into team_game (teamID, sportID, gameID, score) values (43, 5, 8, 3);
+insert into team_game (teamID, sportID, gameID, score) values (44, 7, 49, 7);
+insert into team_game (teamID, sportID, gameID, score) values (44, 7, 40, 4);
+insert into team_game (teamID, sportID, gameID, score) values (44, 7, 33, 5);
+insert into team_game (teamID, sportID, gameID, score) values (45, 2, 17, 4);
+insert into team_game (teamID, sportID, gameID, score) values (45, 2, 51, 5);
+insert into team_game (teamID, sportID, gameID, score) values (45, 2, 23, 2);
+insert into team_game (teamID, sportID, gameID, score) values (46, 9, 29, 2);
+insert into team_game (teamID, sportID, gameID, score) values (46, 9, 11, 8);
+insert into team_game (teamID, sportID, gameID, score) values (46, 9, 17, 6);
+insert into team_game (teamID, sportID, gameID, score) values (47, 6, 52, 3);
+insert into team_game (teamID, sportID, gameID, score) values (47, 6, 50, 1);
+insert into team_game (teamID, sportID, gameID, score) values (47, 6, 19, 3);
+insert into team_game (teamID, sportID, gameID, score) values (48, 9, 13, 8);
+insert into team_game (teamID, sportID, gameID, score) values (48, 9, 38, 7);
+insert into team_game (teamID, sportID, gameID, score) values (48, 9, 19, 10);
+insert into team_game (teamID, sportID, gameID, score) values (49, 1, 56, 9);
+insert into team_game (teamID, sportID, gameID, score) values (49, 1, 17, 7);
+insert into team_game (teamID, sportID, gameID, score) values (49, 1, 22, 6);
+insert into team_game (teamID, sportID, gameID, score) values (50, 6, 44, 4);
+insert into team_game (teamID, sportID, gameID, score) values (50, 6, 53, 2);
+insert into team_game (teamID, sportID, gameID, score) values (50, 6, 30, 3);
+insert into team_game (teamID, sportID, gameID, score) values (51, 4, 55, 4);
+insert into team_game (teamID, sportID, gameID, score) values (51, 4, 5, 3);
+insert into team_game (teamID, sportID, gameID, score) values (51, 4, 49, 10);
+insert into team_game (teamID, sportID, gameID, score) values (52, 4, 47, 8);
+insert into team_game (teamID, sportID, gameID, score) values (52, 4, 56, 3);
+insert into team_game (teamID, sportID, gameID, score) values (52, 4, 37, 3);
+insert into team_game (teamID, sportID, gameID, score) values (53, 4, 2, 4);
+insert into team_game (teamID, sportID, gameID, score) values (53, 4, 55, 4);
+insert into team_game (teamID, sportID, gameID, score) values (53, 4, 5, 10);
+insert into team_game (teamID, sportID, gameID, score) values (54, 8, 3, 10);
+insert into team_game (teamID, sportID, gameID, score) values (54, 8, 44, 7);
+insert into team_game (teamID, sportID, gameID, score) values (54, 8, 15, 4);
+insert into team_game (teamID, sportID, gameID, score) values (55, 8, 26, 7);
+insert into team_game (teamID, sportID, gameID, score) values (55, 8, 56, 7);
+insert into team_game (teamID, sportID, gameID, score) values (55, 8, 8, 9);
+insert into team_game (teamID, sportID, gameID, score) values (56, 2, 58, 4);
+insert into team_game (teamID, sportID, gameID, score) values (56, 2, 3, 2);
+insert into team_game (teamID, sportID, gameID, score) values (56, 2, 29, 2);
+insert into team_game (teamID, sportID, gameID, score) values (57, 2, 53, 8);
+insert into team_game (teamID, sportID, gameID, score) values (57, 2, 34, 9);
+insert into team_game (teamID, sportID, gameID, score) values (57, 2, 25, 6);
+insert into team_game (teamID, sportID, gameID, score) values (58, 1, 55, 6);
+insert into team_game (teamID, sportID, gameID, score) values (58, 1, 14, 10);
+insert into team_game (teamID, sportID, gameID, score) values (58, 1, 39, 5);
+insert into team_game (teamID, sportID, gameID, score) values (59, 4, 42, 8);
+insert into team_game (teamID, sportID, gameID, score) values (59, 4, 46, 4);
+insert into team_game (teamID, sportID, gameID, score) values (59, 4, 59, 4);
+insert into team_game (teamID, sportID, gameID, score) values (60, 7, 37, 8);
+insert into team_game (teamID, sportID, gameID, score) values (60, 7, 13, 9);
+insert into team_game (teamID, sportID, gameID, score) values (60, 7, 10, 6);
 
 
 # referees data
