@@ -110,7 +110,7 @@ def get_products(sportID):
  
     # create a query to get the games with the teams names and sport
     query = f"SELECT g.gameID AS gameID, g.dateTime AS dateTime, g.location AS location, t1.name AS 'Team 1',
-            g.team1_score AS 'Team 1 Score', t2.name AS 'Team 2', g.team2_score AS 'Team 2 Score', s.name AS Sport'
+            g.team1_score AS 'Team 1 Score', t2.name AS 'Team 2', g.team2_score AS 'Team 2 Score', s.name AS Sport
             FROM games AS g 
             JOIN teams AS t1 ON g.team1_ID = t1.teamID AND g.team1_sportID = t1.sportID
             JOIN teams AS t2 ON g.team2_ID = t2.teamID AND g.team2_sportID = t2.sportID
@@ -176,7 +176,7 @@ def get_products(teamID, sportID):
  
     # create a query to get the games with the teams names and sport
     query = f"SELECT g.gameID AS gameID, g.dateTime AS dateTime, g.location AS location, t1.name AS 'Team 1',
-            g.team1_score AS 'Team 1 Score', t2.name AS 'Team 2', g.team2_score AS 'Team 2 Score', s.name AS Sport'
+            g.team1_score AS 'Team 1 Score', t2.name AS 'Team 2', g.team2_score AS 'Team 2 Score', s.name AS Sport
             FROM games AS g 
             JOIN teams AS t1 ON g.team1_ID = t1.teamID AND g.team1_sportID = t1.sportID
             JOIN teams AS t2 ON g.team2_ID = t2.teamID AND g.team2_sportID = t2.sportID
