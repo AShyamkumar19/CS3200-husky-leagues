@@ -2,7 +2,7 @@ DROP DATABASE IF EXISTS newHuskyLeagues;
 
 CREATE DATABASE newHuskyLeagues;
 
-USE newHuskyLeaguesHuskyLeagues;
+USE newHuskyLeagues;
 
 CREATE TABLE IF NOT EXISTS team_members (
     memberID int auto_increment,
