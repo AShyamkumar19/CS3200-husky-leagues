@@ -19,8 +19,8 @@ def get_team_members():
     the_response.mimetype = 'application/json'
     return the_response
 
-# Get team member detail for a specific team 
-@team_members.route('/team_members/<teamID>, <sportID>', methods=['GET'])
+# Get team members detail for a specific team 
+@team_members.route('/team_members/<teamID>/<sportID>', methods=['GET'])
 def get_specific_team_members(teamID, sportID):
     cursor = db.get_db().cursor()
     cursor.execute('''
@@ -83,7 +83,7 @@ def update_team_member(memberID):
 
 # Delete a team member from team
 @team_members.route('/team_members/<memberID>', methods=['DELETE'])
-def delete_team_member(teamID, sportID, memberID):
+def delete_team_member(memberID):
     cursor = db.get_db().cursor()
     cursor.execute('''
                    DELETE tm
@@ -91,13 +91,13 @@ def delete_team_member(teamID, sportID, memberID):
                    JOIN part_of po ON tm.memberID = po.memberID
                    JOIN teams t ON po.teamID = t.teamID
                    WHERE t.teamID = %s AND t.sportID = %s AND tm.memberID = %s;
-                   ''', (teamID, sportID, memberID))
+                   ''', (memberID))
     
     cursor = db.get_db().commit()
 
     return make_response(jsonify('Team member deleted'), 200)
 
-# Add a new team member to the team_members table
+# Add a new member to the db
 @team_members.route('/team_members', methods=['POST'])
 def add_team_member():
     data = request.get_json()
@@ -112,9 +112,9 @@ def add_team_member():
     cursor = db.get_db().cursor()
 
     cursor.execute('''
-                   INSERT INTO team_members (team_id, sport_id, first_name, last_name, email)
-                   VALUES (%s, %s, %s, %s, %s);
-                   ''', (team_id, sport_id, first_name, last_name, email))
+                   INSERT INTO team_members (firstName, lastName, email)
+                   VALUES (%s, %s, %s);
+                   ''', (first_name, last_name, email))
     
     cursor = db.get_db().commit()
 
