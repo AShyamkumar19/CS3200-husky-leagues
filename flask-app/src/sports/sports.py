@@ -68,7 +68,7 @@ def add_sport():
 def delete_sport(sportID):
     cursor = db.get_db().cursor()
     cursor.execute('''
-                   DELETE s
+                   DELETE 
                    FROM sports as s
                    WHERE s.sportID = %s;
                    ''', sportID)

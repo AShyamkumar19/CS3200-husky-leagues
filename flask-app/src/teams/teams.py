@@ -1,3 +1,10 @@
+from flask import Blueprint, request, jsonify, make_response, current_app
+import json
+from src import db
+
+
+teams = Blueprint('teams', __name__)
+
 # create a team
 
 # get info from a team
@@ -9,18 +16,14 @@
 # add a pre existing team member to a team
 
 # delete a member from a team
-
-
-@team_members.route('/team_members/<memberID>', methods=['DELETE'])
+@teams.route('/team_members/<memberID>', methods=['DELETE'])
 def delete_team_member(teamID, sportID, memberID):
     cursor = db.get_db().cursor()
-    cursor.execute('''
-                   DELETE tm
-                   FROM team_members as tm
-                   JOIN part_of po ON tm.memberID = po.memberID
-                   JOIN teams t ON po.teamID = t.teamID
-                   WHERE t.teamID = %s AND t.sportID = %s AND tm.memberID = %s;
-                   ''', (teamID, sportID, memberID))
+
+    query = f"DELETE FROM part_of
+              WHERE teamID = {teamID} AND sportID={sportID} AND memberID={memberID};"
+    
+    cursor.execute(query)
     
     cursor = db.get_db().commit()
 
