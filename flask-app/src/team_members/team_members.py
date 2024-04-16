@@ -29,7 +29,7 @@ def get_specific_team_members(teamID, sportID):
                    JOIN part_of pf ON tm.memberID = pf.memberID
                    JOIN teams t ON pf.teamID = t.teamID
                    WHERE t.teamID =%s and t.sportID = %s;
-                   ''')
+                   ''', (teamID, sportID))
     row_headers = [x[0] for x in cursor.description]
     json_data = []
     theData = cursor.fetchall()
@@ -60,8 +60,8 @@ def get_team_member(memberID):
     return the_response
 
 # Update information of any of the attributes in team_members
-@team_members.route('/team_members/<teamID>/<sportID>', methods=['PUT'])
-def update_team_member(teamID, sportID):
+@team_members.route('/team_members/<memberID>', methods=['PUT'])
+def update_team_member(memberID):
     data = request.get_json()
     current_app.logger.info(data)
     
@@ -74,15 +74,15 @@ def update_team_member(teamID, sportID):
     cursor.execute('''
                    UPDATE team_members
                    SET firstName = %s, lastName = %s, email = %s
-                   WHERE teamID = %s and sportID = %s;
-                   ''', (first_name, last_name, email, teamID, sportID))
+                   WHERE memberID = %s;
+                   ''', (first_name, last_name, email, memberID))
     
     cursor = db.get_db().commit()
 
     return make_response(jsonify('Team member updated'), 200)
 
 # Delete a team member from team
-@team_members.route('/team_members/<teamID>/<sportID>/memberID', methods=['DELETE'])
+@team_members.route('/team_members/<memberID>', methods=['DELETE'])
 def delete_team_member(teamID, sportID, memberID):
     cursor = db.get_db().cursor()
     cursor.execute('''
