@@ -19,8 +19,8 @@ def get_team_members():
     the_response.mimetype = 'application/json'
     return the_response
 
-# Get team member detail for a specific team 
-@team_members.route('/team_members/<teamID>, <sportID>', methods=['GET'])
+# Get team members detail for a specific team 
+@team_members.route('/team_members/<teamID>/<sportID>', methods=['GET'])
 def get_specific_team_members(teamID, sportID):
     cursor = db.get_db().cursor()
     cursor.execute('''
@@ -29,7 +29,7 @@ def get_specific_team_members(teamID, sportID):
                    JOIN part_of pf ON tm.memberID = pf.memberID
                    JOIN teams t ON pf.teamID = t.teamID
                    WHERE t.teamID =%s and t.sportID = %s;
-                   ''')
+                   ''', (teamID, sportID))
     row_headers = [x[0] for x in cursor.description]
     json_data = []
     theData = cursor.fetchall()
@@ -60,8 +60,8 @@ def get_team_member(memberID):
     return the_response
 
 # Update information of any of the attributes in team_members
-@team_members.route('/team_members/<teamID>/<sportID>', methods=['PUT'])
-def update_team_member(teamID, sportID):
+@team_members.route('/team_members/<memberID>', methods=['PUT'])
+def update_team_member(memberID):
     data = request.get_json()
     current_app.logger.info(data)
     
@@ -74,16 +74,16 @@ def update_team_member(teamID, sportID):
     cursor.execute('''
                    UPDATE team_members
                    SET firstName = %s, lastName = %s, email = %s
-                   WHERE teamID = %s and sportID = %s;
-                   ''', (first_name, last_name, email, teamID, sportID))
+                   WHERE memberID = %s;
+                   ''', (first_name, last_name, email, memberID))
     
     cursor = db.get_db().commit()
 
     return make_response(jsonify('Team member updated'), 200)
 
 # Delete a team member from team
-@team_members.route('/team_members/<teamID>/<sportID>/memberID', methods=['DELETE'])
-def delete_team_member(teamID, sportID, memberID):
+@team_members.route('/team_members/<memberID>', methods=['DELETE'])
+def delete_team_member(memberID):
     cursor = db.get_db().cursor()
     cursor.execute('''
                    DELETE tm
@@ -91,13 +91,13 @@ def delete_team_member(teamID, sportID, memberID):
                    JOIN part_of po ON tm.memberID = po.memberID
                    JOIN teams t ON po.teamID = t.teamID
                    WHERE t.teamID = %s AND t.sportID = %s AND tm.memberID = %s;
-                   ''', (teamID, sportID, memberID))
+                   ''', (memberID))
     
     cursor = db.get_db().commit()
 
     return make_response(jsonify('Team member deleted'), 200)
 
-# Add a new team member to the team_members table
+# Add a new member to the db
 @team_members.route('/team_members', methods=['POST'])
 def add_team_member():
     data = request.get_json()
@@ -112,9 +112,9 @@ def add_team_member():
     cursor = db.get_db().cursor()
 
     cursor.execute('''
-                   INSERT INTO team_members (team_id, sport_id, first_name, last_name, email)
-                   VALUES (%s, %s, %s, %s, %s);
-                   ''', (team_id, sport_id, first_name, last_name, email))
+                   INSERT INTO team_members (firstName, lastName, email)
+                   VALUES (%s, %s, %s);
+                   ''', (first_name, last_name, email))
     
     cursor = db.get_db().commit()
 

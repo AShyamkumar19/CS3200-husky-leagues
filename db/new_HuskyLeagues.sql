@@ -25,7 +25,8 @@ CREATE TABLE IF NOT EXISTS teams (
     name varchar(50),
     PRIMARY KEY (sportID, teamID),
     FOREIGN KEY (sportID) REFERENCES sports (sportID)
-                                 ON UPDATE CASCADE,
+                                 ON UPDATE CASCADE
+                                 ON DELETE CASCADE,
     INDEX team_sport_index (teamID, sportID)
 );
 
@@ -44,9 +45,11 @@ CREATE TABLE IF NOT EXISTS part_of (
     roleID int,
     PRIMARY KEY (memberID, sportID, teamID),
     FOREIGN KEY (memberID) REFERENCES team_members (memberID)
-                                 ON UPDATE CASCADE,
+                                 ON UPDATE CASCADE
+                                 ON DELETE CASCADE,
     FOREIGN KEY (sportID, teamID) REFERENCES teams (sportID, teamID)
                                  ON UPDATE CASCADE
+                                 ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS admins (
@@ -58,6 +61,7 @@ CREATE TABLE IF NOT EXISTS admins (
     PRIMARY KEY (adminID),
     FOREIGN KEY (sportID) REFERENCES sports (sportID)
                                  ON UPDATE CASCADE
+                                 ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS sponsors (
@@ -76,6 +80,7 @@ CREATE TABLE IF NOT EXISTS events (
     PRIMARY KEY (eventID),
     FOREIGN KEY (sponsorID) REFERENCES sponsors (sponsorID)
                                  ON UPDATE CASCADE
+                                 ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS sponsorships (
@@ -85,9 +90,11 @@ CREATE TABLE IF NOT EXISTS sponsorships (
     money FLOAT,
     PRIMARY KEY (sponsorID, teamID, sportID),
     FOREIGN KEY (sponsorID) REFERENCES sponsors (sponsorID)
-                                 ON UPDATE CASCADE,
+                                 ON UPDATE CASCADE
+                                 ON DELETE CASCADE,
     FOREIGN KEY (sportID, teamID) REFERENCES teams (sportID, teamID)
                                  ON UPDATE CASCADE
+                                 ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS games (
@@ -102,9 +109,11 @@ CREATE TABLE IF NOT EXISTS games (
     team2_sportID int,
     PRIMARY KEY (gameID),
     FOREIGN KEY(team1_ID, team1_sportID) REFERENCES teams (teamID, sportID)
-                                 ON UPDATE CASCADE,
+                                 ON UPDATE CASCADE
+                                 ON DELETE CASCADE,
     FOREIGN KEY (team2_ID, team2_sportID) REFERENCES teams(teamID, sportID)
-                                ON UPDATE CASCADE,
+                                ON UPDATE CASCADE
+                                ON DELETE CASCADE,
     INDEX (team1_ID, team1_sportID),
     INDEX (team2_ID, team2_sportID)
 );
@@ -122,9 +131,11 @@ CREATE TABLE IF NOT EXISTS officiates (
     gameID int,
     PRIMARY KEY (refID, gameID),
     FOREIGN KEY (refID) REFERENCES referees (refID)
-                                      ON UPDATE CASCADE,
+                                      ON UPDATE CASCADE
+                                      ON DELETE CASCADE,
     FOREIGN KEY (gameID) REFERENCES games (gameID)
                                       ON UPDATE CASCADE
+                                      ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS chooses (
@@ -132,9 +143,11 @@ CREATE TABLE IF NOT EXISTS chooses (
     sportID int,
     PRIMARY KEY (refID, sportID),
     FOREIGN KEY (refID) REFERENCES referees (refID)
-                                   ON UPDATE CASCADE,
+                                   ON UPDATE CASCADE
+                                   ON DELETE CASCADE,
     FOREIGN KEY (sportID) REFERENCES sports (sportID)
                                    ON UPDATE CASCADE
+                                   ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS fans (
@@ -150,9 +163,11 @@ CREATE TABLE IF NOT EXISTS follows_team_members (
     memberID int,
     PRIMARY KEY (fanID, memberID),
     FOREIGN KEY (fanID) REFERENCES fans (fanID)
-                                                ON UPDATE CASCADE,
+                                                ON UPDATE CASCADE
+                                                ON DELETE CASCADE,
     FOREIGN KEY (memberID) REFERENCES team_members (memberID)
                                                 ON UPDATE CASCADE
+                                                ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS follows_teams (
@@ -161,9 +176,11 @@ CREATE TABLE IF NOT EXISTS follows_teams (
     sportID int,
     PRIMARY KEY (fanID, teamID, sportID),
     FOREIGN KEY (fanID) REFERENCES fans (fanID)
-                                            ON UPDATE CASCADE,
+                                            ON UPDATE CASCADE
+                                            ON DELETE CASCADE,
     FOREIGN KEY (sportID, teamID) REFERENCES teams (sportID, teamID)
                                             ON UPDATE CASCADE
+                                            ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS follows_sports (
@@ -171,9 +188,11 @@ CREATE TABLE IF NOT EXISTS follows_sports (
     sportID int,
     PRIMARY KEY (fanID, sportID),
     FOREIGN KEY (fanID) REFERENCES fans (fanID)
-                                            ON UPDATE CASCADE,
+                                            ON UPDATE CASCADE
+                                            ON DELETE CASCADE,
     FOREIGN KEY (sportID) REFERENCES sports (sportID)
                                             ON UPDATE CASCADE
+                                            ON DELETE CASCADE
 );
 
 # team_members data

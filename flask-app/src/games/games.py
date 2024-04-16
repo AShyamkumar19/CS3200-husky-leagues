@@ -13,14 +13,12 @@ def get_products():
  
     # create a query to get the games with the teams names and sport
     query = """SELECT g.gameID AS gameID, g.dateTime AS dateTime, g.location AS location, t1.name AS 'Team 1',
-            g.team1_score AS 'Team 1 Score', t2.name AS 'Team 2', g.team2_score AS 'Team 2 Score', s.name AS Sport,
-            r.firstName as 'Referee First Name', r.lastname AS 'Referee Last Name'
+            g.team1_score AS 'Team 1 Score', t2.name AS 'Team 2', g.team2_score AS 'Team 2 Score', s.name AS Sport
             FROM games AS g 
             JOIN teams AS t1 ON g.team1_ID = t1.teamID AND g.team1_sportID = t1.sportID
             JOIN teams AS t2 ON g.team2_ID = t2.teamID AND g.team2_sportID = t2.sportID
-            JOIN sports AS s ON s.sportID = t1.sportID
-            JOIN officiates AS o ON o.gameID = g.gameID
-            JOIN referees AS r ON o.refID = r.refID;"""
+            JOIN sports AS s ON s.sportID = t1.sportID;"""
+    
     # use cursor to query the database for a list of games
     cursor.execute(query)
 
@@ -45,7 +43,6 @@ def add_team_member():
     data = request.get_json()
     current_app.logger.info(data)
     
-    gameID = data['gameID']
     dateTime = data['dateTime']
     location = data['location']
     team1_id = data['team1_id']
@@ -56,8 +53,8 @@ def add_team_member():
     cursor = db.get_db().cursor()
 
     # create the query
-    query = f"INSERT INTO games (gameID, dateTime, location, team1_ID, team2_ID, team1_sportID, team2_sportID)
-              VALUES ({gameID}, {dateTime}, {location}, {team1_id}, {team2_id}, {team1_sportID}, {team2_sportID})"
+    query = f"INSERT INTO games (dateTime, location, team1_ID, team2_ID, team1_sportID, team2_sportID)
+              VALUES ({dateTime}, {location}, {team1_id}, {team2_id}, {team1_sportID}, {team2_sportID})"
     
     cursor.execute(query)
     
@@ -65,6 +62,7 @@ def add_team_member():
 
     return make_response(jsonify('Game created'), 200)
 
+# Update a specific game
 @games.route('/games/<gameID>', methods=['PUT'])
 def update_game(gameID):
     data = request.get_json()
@@ -81,7 +79,7 @@ def update_game(gameID):
 
     cursor = db.get_db().cursor()
 
-    query = f"UPDATE GAMES
+    query = f"UPDATE games
               SET dateTime = {dateTime}, location = {location}, team1_ID = {team1_ID}, team1_sportID = {team1_sportID}, team1_score = {team1_score},
               team2_ID = {team2_ID}, team2_sportID = {team2_sportID}, team2_score = {team2_score}
               WHERE gameID = {gameID}"
@@ -113,14 +111,11 @@ def get_products(sportID):
  
     # create a query to get the games with the teams names and sport
     query = f"SELECT g.gameID AS gameID, g.dateTime AS dateTime, g.location AS location, t1.name AS 'Team 1',
-            g.team1_score AS 'Team 1 Score', t2.name AS 'Team 2', g.team2_score AS 'Team 2 Score', s.name AS Sport,
-            r.firstName as 'Referee First Name', r.lastname AS 'Referee Last Name'
+            g.team1_score AS 'Team 1 Score', t2.name AS 'Team 2', g.team2_score AS 'Team 2 Score', s.name AS Sport
             FROM games AS g 
             JOIN teams AS t1 ON g.team1_ID = t1.teamID AND g.team1_sportID = t1.sportID
             JOIN teams AS t2 ON g.team2_ID = t2.teamID AND g.team2_sportID = t2.sportID
             JOIN sports AS s ON s.sportID = t1.sportID
-            JOIN officiates AS o ON o.gameID = g.gameID
-            JOIN referees AS r ON o.refID = r.refID
             WHERE g.team1_sportID = {sportID} AND g.team2_sportID = {sportID};"
     
     # use cursor to query the database for a list of games
@@ -142,21 +137,18 @@ def get_products(sportID):
         json_data.append(dict(zip(column_headers, row)))
 
 # Get info for a specific game
-@games.route('/games/<sportID>', methods=['GET'])
+@games.route('/games/<gameID>', methods=['GET'])
 def get_products(gameID):
     # get a cursor object from the database
     cursor = db.get_db().cursor()
  
     # create a query to get the games with the teams names and sport
     query = f"SELECT g.gameID AS gameID, g.dateTime AS dateTime, g.location AS location, t1.name AS 'Team 1',
-            g.team1_score AS 'Team 1 Score', t2.name AS 'Team 2', g.team2_score AS 'Team 2 Score', s.name AS Sport,
-            r.firstName as 'Referee First Name', r.lastname AS 'Referee Last Name'
+            g.team1_score AS 'Team 1 Score', t2.name AS 'Team 2', g.team2_score AS 'Team 2 Score', s.name AS Sport
             FROM games AS g 
             JOIN teams AS t1 ON g.team1_ID = t1.teamID AND g.team1_sportID = t1.sportID
             JOIN teams AS t2 ON g.team2_ID = t2.teamID AND g.team2_sportID = t2.sportID
             JOIN sports AS s ON s.sportID = t1.sportID
-            JOIN officiates AS o ON o.gameID = g.gameID
-            JOIN referees AS r ON o.refID = r.refID
             WHERE g.gameID = {gameID};"
     
     # use cursor to query the database for a list of games
@@ -177,7 +169,7 @@ def get_products(gameID):
     for row in theData:
         json_data.append(dict(zip(column_headers, row)))
 
-# Get all the games for a specific sport
+# Get all the games for a team
 @games.route('/games/<teamID>/<sportID>', methods=['GET'])
 def get_products(teamID, sportID):
     # get a cursor object from the database
@@ -185,14 +177,11 @@ def get_products(teamID, sportID):
  
     # create a query to get the games with the teams names and sport
     query = f"SELECT g.gameID AS gameID, g.dateTime AS dateTime, g.location AS location, t1.name AS 'Team 1',
-            g.team1_score AS 'Team 1 Score', t2.name AS 'Team 2', g.team2_score AS 'Team 2 Score', s.name AS Sport,
-            r.firstName as 'Referee First Name', r.lastname AS 'Referee Last Name'
+            g.team1_score AS 'Team 1 Score', t2.name AS 'Team 2', g.team2_score AS 'Team 2 Score', s.name AS Sport
             FROM games AS g 
             JOIN teams AS t1 ON g.team1_ID = t1.teamID AND g.team1_sportID = t1.sportID
             JOIN teams AS t2 ON g.team2_ID = t2.teamID AND g.team2_sportID = t2.sportID
             JOIN sports AS s ON s.sportID = t1.sportID
-            JOIN officiates AS o ON o.gameID = g.gameID
-            JOIN referees AS r ON o.refID = r.refID
             WHERE g.team1_sportID = {sportID} AND g.team2_sportID = {sportID} AND (g.team1_ID = {teamID} OR g.team2_ID = {teamID});"
     
     # use cursor to query the database for a list of games
