@@ -6,8 +6,8 @@ from src import db
 fans = Blueprint('fans', __name__)
 
 # Adds a player to the who a fan is following
-@fans.route('/fans/<fanID, memberID>', methods=['POST'])
-def add_team_member(fanID, memberID):
+@fans.route('/fans/<fanID>/<memberID>', methods=['POST'])
+def add_fan_player(fanID, memberID):
     cursor = db.get_db().cursor()
     cursor.execute('''
                    INSERT INTO fans (fanID, memberID)
@@ -18,8 +18,8 @@ def add_team_member(fanID, memberID):
     return make_response(jsonify('New team member followed'), 200)
 
 # Adds a team to who a fan is following
-@fans.route('/fans/<fanID, teamID, sportID>', methods=['POST'])
-def add_team_member(fanID, teamID, sportID):
+@fans.route('/fans/<fanID/<teamID>/<sportID>', methods=['POST'])
+def add_fan_team(fanID, teamID, sportID):
     cursor = db.get_db().cursor()
     cursor.execute('''
                    INSERT INTO fans (fanID, teamID, sportID)
@@ -30,8 +30,8 @@ def add_team_member(fanID, teamID, sportID):
     return make_response(jsonify('New team followed'), 200)
 
 # Adds a sport to who a fan is following
-@fans.route('/fans/<fanID, sportID>', methods=['POST'])
-def add_team_member(fanID, sportID):
+@fans.route('/fans/<fanID>/sportID>', methods=['POST'])
+def add_fan_sport(fanID, sportID):
     cursor = db.get_db().cursor()
     cursor.execute('''
                    INSERT INTO fans (fanID, sportID)
@@ -56,7 +56,7 @@ def delete_fan(fanID):
 
 # Updates a fan email
 @fans.route('/fans/<fanID>', methods=['PUT'])
-def update_specific_role(fanID):
+def update_specific_fan(fanID):
     cursor = db.get_db().cursor()
     cursor.execute('''
                    UPDATE fans
@@ -68,8 +68,8 @@ def update_specific_role(fanID):
     return make_response(jsonify('Fan updated'), 200)
 
 # Get all team members a fan follows from the DB
-@fans.route('/fans,<fanID>', methods=['GET'])
-def get_roles(fanID):
+@fans.route('/fans/<fanID>', methods=['GET'])
+def get_team_members_fan(fanID):
     cursor = db.get_db().cursor()
     cursor.execute('''
                    SELECT name, description

@@ -7,7 +7,7 @@ games = Blueprint('games', __name__)
 
 # Get all the games from the database
 @games.route('/games', methods=['GET'])
-def get_products():
+def get_games():
     # get a cursor object from the database
     cursor = db.get_db().cursor()
  
@@ -105,7 +105,7 @@ def delete_team_member(gameID):
 
 # Get all the games for a specific sport
 @games.route('/games/<sportID>', methods=['GET'])
-def get_products(sportID):
+def get_games_sports(sportID):
     # get a cursor object from the database
     cursor = db.get_db().cursor()
  
@@ -138,7 +138,7 @@ def get_products(sportID):
 
 # Get info for a specific game
 @games.route('/games/<gameID>', methods=['GET'])
-def get_products(gameID):
+def get_game(gameID):
     # get a cursor object from the database
     cursor = db.get_db().cursor()
  
@@ -171,7 +171,7 @@ def get_products(gameID):
 
 # Get all the games for a team
 @games.route('/games/<teamID>/<sportID>', methods=['GET'])
-def get_products(teamID, sportID):
+def get_games_team(teamID, sportID):
     # get a cursor object from the database
     cursor = db.get_db().cursor()
  
