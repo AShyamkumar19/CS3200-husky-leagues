@@ -233,7 +233,8 @@ def get__refs_games(refID):
             JOIN teams AS t2 ON g.team2_ID = t2.teamID AND g.team2_sportID = t2.sportID \
             JOIN sports AS s ON s.sportID = t1.sportID \
             JOIN officiates AS o on o.gameID = g.gameID \
-            WHERE o.refID={refID};"
+            WHERE o.refID={refID} \
+            ORDER BY dateTime;"
     
     # use cursor to query the database for a list of games
     cursor.execute(query)
