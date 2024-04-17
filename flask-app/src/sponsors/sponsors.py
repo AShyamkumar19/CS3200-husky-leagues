@@ -37,7 +37,7 @@ def get_sponsors():
 def delete_sponsor(sponsorID):
     cursor = db.get_db().cursor()
 
-    query = f"DELETE FROM sponsors
+    query = f"DELETE FROM sponsors \
               WHERE teamID = {sponsorID};"
     
     cursor.execute(query)
@@ -58,7 +58,7 @@ def add_sponsor():
     cursor = db.get_db().cursor()
 
     # create the query
-    query = f"INSERT INTO sponsors (name, email)
+    query = f"INSERT INTO sponsors (name, email) \
               VALUES ({name}, {email})"
     
     cursor.execute(query)
@@ -78,8 +78,8 @@ def update_team(sponsorID):
 
     cursor = db.get_db().cursor()
 
-    query = f"UPDATE sponsors
-              SET name={name}, email={email}
+    query = f"UPDATE sponsors \
+              SET name={name}, email={email} \
               WHERE sponsorID={sponsorID}"
 
     cursor.execute(query)
@@ -96,7 +96,7 @@ def get_sponsor(sponsorID):
     cursor = db.get_db().cursor()
  
     # create a query to get sponsors
-    query = f"SELECT * FROM sponsors
+    query = f"SELECT * FROM sponsors \
                WHERE sponsorID={sponsorID}"
     
     # use cursor to query the database for a list of games
@@ -124,11 +124,11 @@ def get_sponsor(sponsorID):
     cursor = db.get_db().cursor()
  
     # create a query to get sponsors
-    query = f"SELECT s1.name, t.name, s2.name, s3.money
-              FROM sponsors AS s1
-              JOIN sponsorships AS s3 ON s1.sponsorID = s3.sponsorID
-              JOIN teams AS t ON t.teamID = s3.teamID AND t.sportID = s3.sportID
-              JOIN sports AS s2 ON t.sportID = s2.sportID
+    query = f"SELECT s1.name, t.name, s2.name, s3.money \
+              FROM sponsors AS s1 \
+              JOIN sponsorships AS s3 ON s1.sponsorID = s3.sponsorID \
+              JOIN teams AS t ON t.teamID = s3.teamID AND t.sportID = s3.sportID \
+              JOIN sports AS s2 ON t.sportID = s2.sportID \
               WHERE s1.sponsorID={sponsorID}"
     
     # use cursor to query the database for a list of games
@@ -156,11 +156,11 @@ def get_sponsorship(sponsorID, teamID, sportID):
     cursor = db.get_db().cursor()
  
     # create a query to get sponsors
-    query = f"SELECT s1.name, t.name, s2.name, s3.money
-              FROM sponsors AS s1
-              JOIN sponsorships AS s3 ON s1.sponsorID = s3.sponsorID
-              JOIN teams AS t ON t.teamID = s3.teamID AND t.sportID = s3.sportID
-              JOIN sports AS s2 ON t.sportID = s2.sportID
+    query = f"SELECT s1.name, t.name, s2.name, s3.money \
+              FROM sponsors AS s1 \
+              JOIN sponsorships AS s3 ON s1.sponsorID = s3.sponsorID \
+              JOIN teams AS t ON t.teamID = s3.teamID AND t.sportID = s3.sportID \
+              JOIN sports AS s2 ON t.sportID = s2.sportID \
               WHERE s3.sponsorID={sponsorID} AND s3.teamID={teamID} AND s3.sportID={sportID}"
     
     # use cursor to query the database for a list of games
@@ -191,8 +191,8 @@ def update_sponsorship(sponsorID, teamID, sportID):
 
     cursor = db.get_db().cursor()
 
-    query = f"UPDATE sponsorships
-              SET money={money}
+    query = f"UPDATE sponsorships \
+              SET money={money} \
               WHERE sponsorID={sponsorID} AND sportID={sportID} AND teamID={teamID}"
 
     cursor.execute(query)
@@ -215,7 +215,7 @@ def add_sponsor():
     cursor = db.get_db().cursor()
 
     # create the query
-    query = f"INSERT INTO sponsorship (sponsorID, teamID, sportID, money)
+    query = f"INSERT INTO sponsorship (sponsorID, teamID, sportID, money) \
               VALUES ({sponsorID}, {teamID}, {sportID}, {money})"
     
     cursor.execute(query)

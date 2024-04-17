@@ -17,7 +17,7 @@ def add_team_member():
     cursor = db.get_db().cursor()
 
     # create the query
-    query = f"INSERT INTO teams (sportID, name)
+    query = f"INSERT INTO teams (sportID, name) \
               VALUES ({sportID}, {name})"
     
     cursor.execute(query)
@@ -64,10 +64,10 @@ def get_products(teamID, sportID):
     cursor = db.get_db().cursor()
  
     # create a query to get the games with the teams names and sport
-    query = f"SELECT t.name AS 'Team Name', s.name AS Sport
-               FROM teams AS t
-               JOIN sports AS s
-               ON s.sportID = t.sportID
+    query = f"SELECT t.name AS 'Team Name', s.name AS Sport \
+               FROM teams AS t \
+               JOIN sports AS s \
+               ON s.sportID = t.sportID \
                WHERE s.sportID = {sportID} AND t.teamID={teamID};"
     
     # use cursor to query the database for a list of games
