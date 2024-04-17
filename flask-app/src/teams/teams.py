@@ -160,3 +160,17 @@ def delete_team_member_onteam(teamID, sportID, memberID):
     cursor = db.get_db().commit()
 
     return make_response(jsonify('Team member deleted'), 200)
+
+# get all teams for a specific sport
+@teams.route('/teams/<sportID>', methods=['GET'])
+def get_teams_for_sport(sportID):
+    cursor = db.get_db().cursor()
+    cursor.execute('''
+                   SELECT *
+                   FROM teams 
+                   WHERE teams.sportID = %s;
+                   ''', sportID)
+    teams = cursor.fetchall()
+
+    cursor = db.get_db().cursor()
+    return jsonify(teams)
