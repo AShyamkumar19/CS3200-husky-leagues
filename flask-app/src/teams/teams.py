@@ -163,14 +163,14 @@ def delete_team_member_onteam(teamID, sportID, memberID):
 
 # get all teams for a specific sport
 @teams.route('/teams/<sportID>', methods=['GET'])
-def get_teams_for_sport(sportID):
+def get_teams_from_sport(sportID):
 # get a cursor object from the database
     cursor = db.get_db().cursor()
  
     # create a query to get team names and sport
-    query = """SELECT *
-               FROM teams 
-               WHERE teams.sportID = %s;"""
+    query = f"SELECT * \
+               FROM teams \
+               WHERE sportID = {sportID};"
     
     # use cursor to query the database for a list of games
     cursor.execute(query)
