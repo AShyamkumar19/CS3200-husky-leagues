@@ -90,7 +90,7 @@ def get_products(teamID, sportID):
 
 # update team info
 @teams.route('/teams/<teamID>/<sportID>', methods=['PUT'])
-def update_game(teamID, sportID):
+def update_team(teamID, sportID):
     data = request.get_json()
     current_app.logger.info(data)
     
@@ -98,22 +98,22 @@ def update_game(teamID, sportID):
 
     cursor = db.get_db().cursor()
 
-    query = f"UPDATE teams
-              SET name={name}
+    query = f"UPDATE teams \
+              SET name={name} \
               WHERE teamID={teamID} AND sportID={sportID}"
 
     cursor.execute(query)
     
     cursor = db.get_db().commit()
 
-    return make_response(jsonify('Game updated'), 200)
+    return make_response(jsonify('Team updated'), 200)
 
 # delete a team
 @teams.route('/teams/<teamID>/<sportID>>', methods=['DELETE'])
-def delete_team_member(teamID, sportID):
+def delete_team(teamID, sportID):
     cursor = db.get_db().cursor()
 
-    query = f"DELETE FROM teams
+    query = f"DELETE FROM teams \
               WHERE teamID = {teamID} AND sportID={sportID};"
     
     cursor.execute(query)
@@ -124,7 +124,7 @@ def delete_team_member(teamID, sportID):
 
 # add a pre existing team member to a team
 @teams.route('/teams', methods=['POST'])
-def add_team_member():
+def add_team_member_toteam():
     data = request.get_json()
     current_app.logger.info(data)
     
@@ -137,7 +137,7 @@ def add_team_member():
     cursor = db.get_db().cursor()
 
     # create the query
-    query = f"INSERT INTO part_of (sportID, teamID, memberID, jerseyNum, roleID)
+    query = f"INSERT INTO part_of (sportID, teamID, memberID, jerseyNum, roleID) \
               VALUES ({sportID}, {teamID}, {memberID}, {jerseyNum}, {roleID})"
     
     cursor.execute(query)
@@ -148,10 +148,10 @@ def add_team_member():
 
 # delete a member from a team
 @teams.route('/teams/<teamID>/<sportID>/<memberID>', methods=['DELETE'])
-def delete_team_member(teamID, sportID, memberID):
+def delete_team_member_onteam(teamID, sportID, memberID):
     cursor = db.get_db().cursor()
 
-    query = f"DELETE FROM part_of
+    query = f"DELETE FROM part_of \
               WHERE teamID = {teamID} AND sportID={sportID} AND memberID={memberID};"
     
     cursor.execute(query)

@@ -59,28 +59,26 @@ def get_referee(refID):
     the_response.mimetype = 'application/json'
     return the_response
 
-# Should refs choosing their game to ref be here?
-
-# # Get all referees for a specific sport
-# @referees.route('/referees/<sportID>', methods=['GET'])
-# def get_sport_referees(sportID):
-#     cursor = db.get_db().cursor()
-#     cursor.execute('''
-#                    SELECT firstName AS First_Name, lastName as 'Last_Name', email
-#                    FROM referees as r
-#                    JOIN officiates o ON r.refID = o.refID
-#                    JOIN games g ON o.gameID = g.gameID
-#                    WHERE g.sportID = %s;
-#                    ''', sportID)
-#     row_headers = [x[0] for x in cursor.description]
-#     json_data = []
-#     theData = cursor.fetchall()
-#     for row in theData:
-#         json_data.append(dict(zip(row_headers, row)))
-#     the_response = make_response(jsonify(json_data))
-#     the_response.status_code = 200
-#     the_response.mimetype = 'application/json'
-#     return the_response
+# Get all referees for a specific sport
+@referees.route('/referees/<sportID>', methods=['GET'])
+def get_sport_referees(sportID):
+    cursor = db.get_db().cursor()
+    cursor.execute('''
+                   SELECT firstName AS First_Name, lastName as 'Last_Name', email
+                   FROM referees as r
+                   JOIN officiates o ON r.refID = o.refID
+                   JOIN games g ON o.gameID = g.gameID
+                   WHERE g.sportID = %s;
+                   ''', sportID)
+    row_headers = [x[0] for x in cursor.description]
+    json_data = []
+    theData = cursor.fetchall()
+    for row in theData:
+        json_data.append(dict(zip(row_headers, row)))
+    the_response = make_response(jsonify(json_data))
+    the_response.status_code = 200
+    the_response.mimetype = 'application/json'
+    return the_response
 
 # Update referee information for a specific referee
 @referees.route('/referees/<refID>', methods=['PUT'])
@@ -133,7 +131,7 @@ def delete_referee(refID):
 def assign_ref(refID, gameID):
     cursor = db.get_db().cursor()
 
-    query = f"INSERT INTO officiates (refID, gameID)
+    query = f"INSERT INTO officiates (refID, gameID) \
               VALUES ({refID}, {gameID})"
     
     cursor.execute(query)
@@ -145,8 +143,8 @@ def assign_ref(refID, gameID):
 def delete_ref_game(refID, gameID):
     cursor = db.get_db().cursor()
 
-    query = f"DELETE FROM officiates
-              WHERE refID={refID} AND gameID=gameID;"
+    query = f"DELETE FROM officiates \
+              WHERE refID={refID} AND gameID={gameID};"
     
     cursor.execute(query)
     cursor = db.get_db().commit()

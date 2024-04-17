@@ -53,7 +53,7 @@ def add_team_member():
     cursor = db.get_db().cursor()
 
     # create the query
-    query = f"INSERT INTO games (dateTime, location, team1_ID, team2_ID, team1_sportID, team2_sportID)
+    query = f"INSERT INTO games (dateTime, location, team1_ID, team2_ID, team1_sportID, team2_sportID) \
               VALUES ({dateTime}, {location}, {team1_id}, {team2_id}, {team1_sportID}, {team2_sportID})"
     
     cursor.execute(query)
@@ -79,9 +79,9 @@ def update_game(gameID):
 
     cursor = db.get_db().cursor()
 
-    query = f"UPDATE games
-              SET dateTime = {dateTime}, location = {location}, team1_ID = {team1_ID}, team1_sportID = {team1_sportID}, team1_score = {team1_score},
-              team2_ID = {team2_ID}, team2_sportID = {team2_sportID}, team2_score = {team2_score}
+    query = f"UPDATE games \
+              SET dateTime = {dateTime}, location = {location}, team1_ID = {team1_ID}, team1_sportID = {team1_sportID}, team1_score = {team1_score}, \
+              team2_ID = {team2_ID}, team2_sportID = {team2_sportID}, team2_score = {team2_score} \
               WHERE gameID = {gameID}"
 
     cursor.execute(query)
@@ -110,12 +110,12 @@ def get_products(sportID):
     cursor = db.get_db().cursor()
  
     # create a query to get the games with the teams names and sport
-    query = f"SELECT g.gameID AS gameID, g.dateTime AS dateTime, g.location AS location, t1.name AS 'Team 1',
-            g.team1_score AS 'Team 1 Score', t2.name AS 'Team 2', g.team2_score AS 'Team 2 Score', s.name AS Sport
-            FROM games AS g 
-            JOIN teams AS t1 ON g.team1_ID = t1.teamID AND g.team1_sportID = t1.sportID
-            JOIN teams AS t2 ON g.team2_ID = t2.teamID AND g.team2_sportID = t2.sportID
-            JOIN sports AS s ON s.sportID = t1.sportID
+    query = f"SELECT g.gameID AS gameID, g.dateTime AS dateTime, g.location AS location, t1.name AS 'Team 1', \
+            g.team1_score AS 'Team 1 Score', t2.name AS 'Team 2', g.team2_score AS 'Team 2 Score', s.name AS Sport \
+            FROM games AS g \
+            JOIN teams AS t1 ON g.team1_ID = t1.teamID AND g.team1_sportID = t1.sportID \
+            JOIN teams AS t2 ON g.team2_ID = t2.teamID AND g.team2_sportID = t2.sportID \
+            JOIN sports AS s ON s.sportID = t1.sportID \
             WHERE g.team1_sportID = {sportID} AND g.team2_sportID = {sportID};"
     
     # use cursor to query the database for a list of games
@@ -143,12 +143,12 @@ def get_products(gameID):
     cursor = db.get_db().cursor()
  
     # create a query to get the games with the teams names and sport
-    query = f"SELECT g.gameID AS gameID, g.dateTime AS dateTime, g.location AS location, t1.name AS 'Team 1',
-            g.team1_score AS 'Team 1 Score', t2.name AS 'Team 2', g.team2_score AS 'Team 2 Score', s.name AS Sport
-            FROM games AS g 
-            JOIN teams AS t1 ON g.team1_ID = t1.teamID AND g.team1_sportID = t1.sportID
-            JOIN teams AS t2 ON g.team2_ID = t2.teamID AND g.team2_sportID = t2.sportID
-            JOIN sports AS s ON s.sportID = t1.sportID
+    query = f"SELECT g.gameID AS gameID, g.dateTime AS dateTime, g.location AS location, t1.name AS 'Team 1', \
+            g.team1_score AS 'Team 1 Score', t2.name AS 'Team 2', g.team2_score AS 'Team 2 Score', s.name AS Sport \
+            FROM games AS g \
+            JOIN teams AS t1 ON g.team1_ID = t1.teamID AND g.team1_sportID = t1.sportID \
+            JOIN teams AS t2 ON g.team2_ID = t2.teamID AND g.team2_sportID = t2.sportID \
+            JOIN sports AS s ON s.sportID = t1.sportID \
             WHERE g.gameID = {gameID};"
     
     # use cursor to query the database for a list of games
@@ -176,12 +176,12 @@ def get_products(teamID, sportID):
     cursor = db.get_db().cursor()
  
     # create a query to get the games with the teams names and sport
-    query = f"SELECT g.gameID AS gameID, g.dateTime AS dateTime, g.location AS location, t1.name AS 'Team 1',
-            g.team1_score AS 'Team 1 Score', t2.name AS 'Team 2', g.team2_score AS 'Team 2 Score', s.name AS Sport
-            FROM games AS g 
-            JOIN teams AS t1 ON g.team1_ID = t1.teamID AND g.team1_sportID = t1.sportID
-            JOIN teams AS t2 ON g.team2_ID = t2.teamID AND g.team2_sportID = t2.sportID
-            JOIN sports AS s ON s.sportID = t1.sportID
+    query = f"SELECT g.gameID AS gameID, g.dateTime AS dateTime, g.location AS location, t1.name AS 'Team 1', \
+            g.team1_score AS 'Team 1 Score', t2.name AS 'Team 2', g.team2_score AS 'Team 2 Score', s.name AS Sport \
+            FROM games AS g \
+            JOIN teams AS t1 ON g.team1_ID = t1.teamID AND g.team1_sportID = t1.sportID \
+            JOIN teams AS t2 ON g.team2_ID = t2.teamID AND g.team2_sportID = t2.sportID \
+            JOIN sports AS s ON s.sportID = t1.sportID \
             WHERE g.team1_sportID = {sportID} AND g.team2_sportID = {sportID} AND (g.team1_ID = {teamID} OR g.team2_ID = {teamID});"
     
     # use cursor to query the database for a list of games
