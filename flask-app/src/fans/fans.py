@@ -9,10 +9,7 @@ fans = Blueprint('fans', __name__)
 @fans.route('/fans/<fanID>/<memberID>', methods=['POST'])
 def add_fan_player(fanID, memberID):
     cursor = db.get_db().cursor()
-    cursor.execute('''
-                   INSERT INTO fans (fanID, memberID)
-                   VALUES (%s, %s);
-                   ''', fanID, memberID)
+    cursor.execute(f"INSERT INTO follows_team_members (fanID, memberID) VALUES ({fanID}, {memberID})")
     
     cursor = db.get_db().commit()
     return make_response(jsonify('New team member followed'), 200)
@@ -72,10 +69,26 @@ def update_specific_fan(fanID):
 def get_team_members_fan(fanID):
     cursor = db.get_db().cursor()
     cursor.execute('''
-                   SELECT name, description
+                   SELECT firstName, lastName, email
                    FROM follows_team_members
+                   JOIN team_members
                    WHERE fanID = %s
                    ''', fanID)
+    row_headers = [x[0] for x in cursor.description]
+    json_data = []
+    theData = cursor.fetchall()
+    for row in theData:
+        json_data.append(dict(zip(row_headers, row)))
+    the_response = make_response(jsonify(json_data))
+    the_response.status_code = 200
+    the_response.mimetype = 'application/json'
+    return the_response
+
+# Get all fans
+@fans.route('/fans', methods=['GET'])
+def get_fans():
+    cursor = db.get_db().cursor()
+    cursor.execute(" SELECT fanID, firstName, lastName FROM fans ")
     row_headers = [x[0] for x in cursor.description]
     json_data = []
     theData = cursor.fetchall()

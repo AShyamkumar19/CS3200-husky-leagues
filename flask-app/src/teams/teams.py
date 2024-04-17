@@ -33,7 +33,7 @@ def get_teamss():
     cursor = db.get_db().cursor()
  
     # create a query to get team names and sport
-    query = """SELECT t.name AS 'Team Name', s.name AS Sport
+    query = """SELECT t.sportID, t.teamID, t.name AS 'Team_Name', s.name AS Sport
                FROM teams AS t
                JOIN sports AS s
                ON s.sportID = t.sportID;"""
@@ -55,6 +55,8 @@ def get_teamss():
     # the column headers. 
     for row in theData:
         json_data.append(dict(zip(column_headers, row)))
+        
+    return make_response(jsonify(json_data), 200)
 
 # get info from a team
 @teams.route('/teams/<sportID>/<teamID>', methods=['GET'])
