@@ -127,3 +127,27 @@ def delete_referee(refID):
     
     cursor = db.get_db().commit()
     return make_response(jsonify('Referee deleted'), 200)
+
+# Assign a referee to a game
+@referees.route('/officiates/<refID>/<gameID>', methods=['POST'])
+def assign_ref(refID, gameID):
+    cursor = db.get_db().cursor()
+
+    query = f"INSERT INTO officiates (refID, gameID)
+              VALUES ({refID}, {gameID})"
+    
+    cursor.execute(query)
+    cursor = db.get_db().commit()
+    return make_response(jsonify('Referee assigned'), 200)
+
+# Delete a referee from a game
+@referees.route('/officiates/<refID>/<gameID>', methods=['DELETE'])
+def delete_ref_game(refID, gameID):
+    cursor = db.get_db().cursor()
+
+    query = f"DELETE FROM officiates
+              WHERE refID={refID} AND gameID=gameID;"
+    
+    cursor.execute(query)
+    cursor = db.get_db().commit()
+    return make_response(jsonify('Referee deleted from game'), 200)
