@@ -7,7 +7,7 @@ teams = Blueprint('teams', __name__)
 
 # create a team
 @teams.route('/teams', methods=['POST'])
-def add_team_member():
+def add_team():
     data = request.get_json()
     current_app.logger.info(data)
     
@@ -28,7 +28,7 @@ def add_team_member():
 
 # get all teams
 @teams.route('/teams', methods=['GET'])
-def get_products():
+def get_teamss():
     # get a cursor object from the database
     cursor = db.get_db().cursor()
  
@@ -57,9 +57,8 @@ def get_products():
         json_data.append(dict(zip(column_headers, row)))
 
 # get info from a team
-# Get info for a specific game
-@teams.route('/teams/<sportID>/<gameID>', methods=['GET'])
-def get_products(teamID, sportID):
+@teams.route('/teams/<sportID>/<teamID>', methods=['GET'])
+def get_team(teamID, sportID):
     # get a cursor object from the database
     cursor = db.get_db().cursor()
  

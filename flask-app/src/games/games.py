@@ -92,7 +92,7 @@ def update_game(gameID):
 
 # Delete a game
 @games.route('/team_members/<gameID>', methods=['DELETE'])
-def delete_team_member(gameID):
+def delete_game(gameID):
     cursor = db.get_db().cursor()
     cursor.execute('''
                    DELETE FROM games

@@ -49,7 +49,7 @@ def add_role():
 
 # Delete a role from the DB
 @roles.route('/roles/<roleID>', methods=['DELETE'])
-def delete_sport(roleID):
+def delete_role(roleID):
     cursor = db.get_db().cursor()
     cursor.execute('''
                    DELETE 
@@ -62,7 +62,7 @@ def delete_sport(roleID):
 
 # Get description of a certain role
 @roles.route('/roles/<roleID>', methods=['GET'])
-def get_roles(roleID):
+def get_role_desc(roleID):
     cursor = db.get_db().cursor()
     cursor.execute('''
                    SELECT description

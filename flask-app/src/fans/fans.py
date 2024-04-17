@@ -18,7 +18,7 @@ def add_fan_player(fanID, memberID):
     return make_response(jsonify('New team member followed'), 200)
 
 # Adds a team to who a fan is following
-@fans.route('/fans/<fanID/<teamID>/<sportID>', methods=['POST'])
+@fans.route('/fans/<fanID>/<teamID>/<sportID>', methods=['POST'])
 def add_fan_team(fanID, teamID, sportID):
     cursor = db.get_db().cursor()
     cursor.execute('''

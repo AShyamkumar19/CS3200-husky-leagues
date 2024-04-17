@@ -69,7 +69,7 @@ def add_sponsor():
 
 # edit info for a specific sponsor
 @sponsors.route('/teams/<sponsorID>', methods=['PUT'])
-def update_team(sponsorID):
+def update_sponsor(sponsorID):
     data = request.get_json()
     current_app.logger.info(data)
     
@@ -119,7 +119,7 @@ def get_sponsor(sponsorID):
 
 # Return sponsorship info for a specific sponsor
 @sponsors.route('/sponsors/<sponsorID>', methods=['GET'])
-def get_sponsor(sponsorID):
+def get_sponsorship_sponsor(sponsorID):
     # get a cursor object from the database
     cursor = db.get_db().cursor()
  
@@ -203,7 +203,7 @@ def update_sponsorship(sponsorID, teamID, sportID):
 
 # add a sponsorship
 @sponsors.route('/sponsorships', methods=['POST'])
-def add_sponsor():
+def add_sponsorship():
     data = request.get_json()
     current_app.logger.info(data)
     
