@@ -149,3 +149,19 @@ def delete_ref_game(refID, gameID):
     cursor.execute(query)
     cursor = db.get_db().commit()
     return make_response(jsonify('Referee deleted from game'), 200)
+
+# Get all referees (w/o email) from the DB
+# @referees.route('/referees_noemail', methods=['GET'])
+# def get_referees_no_email():
+#     cursor = db.get_db().cursor()
+#     cursor.execute('select firstName, lastName, refID from referees')
+#     row_headers = [x[0] for x in cursor.description]
+#     json_data = []
+#     theData = cursor.fetchall()
+#     for row in theData:
+#         json_data.append(dict(zip(row_headers, row)))
+#     the_response = make_response(jsonify(json_data))
+#     the_response.status_code = 200
+#     the_response.mimetype = 'application/json'
+#     return the_response 
+
