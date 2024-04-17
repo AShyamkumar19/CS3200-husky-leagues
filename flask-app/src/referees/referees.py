@@ -150,7 +150,7 @@ def delete_ref_game(refID, gameID):
     cursor = db.get_db().commit()
     return make_response(jsonify('Referee deleted from game'), 200)
 
-# Get all referees (w/o email) from the DB
+# Get all sports that a ref referees
 @referees.route('/referees_sports/<refID>', methods=['GET'])
 def get_ref_sports(refID):
     cursor = db.get_db().cursor()
