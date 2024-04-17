@@ -164,13 +164,30 @@ def delete_team_member_onteam(teamID, sportID, memberID):
 # get all teams for a specific sport
 @teams.route('/teams/<sportID>', methods=['GET'])
 def get_teams_for_sport(sportID):
+# get a cursor object from the database
     cursor = db.get_db().cursor()
-    cursor.execute('''
-                   SELECT *
-                   FROM teams 
-                   WHERE teams.sportID = %s;
-                   ''', sportID)
-    teams = cursor.fetchall()
+ 
+    # create a query to get team names and sport
+    query = """SELECT *
+               FROM teams 
+               WHERE teams.sportID = %s;"""
+    
+    # use cursor to query the database for a list of games
+    cursor.execute(query)
 
-    cursor = db.get_db().cursor()
-    return jsonify(teams)
+    # grab the column headers from the returned data
+    column_headers = [x[0] for x in cursor.description]
+
+    # create an empty dictionary object to use in 
+    # putting column headers together with data
+    json_data = []
+
+    # fetch all the data from the cursor
+    theData = cursor.fetchall()
+
+    # for each of the rows, zip the data elements together with
+    # the column headers. 
+    for row in theData:
+        json_data.append(dict(zip(column_headers, row)))
+        
+    return make_response(jsonify(json_data), 200)
