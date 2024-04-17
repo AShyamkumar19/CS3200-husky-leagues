@@ -1,3 +1,5 @@
+## This is the repository for our project: Husky Leagues
+
 # MySQL + Flask Boilerplate Project
 
 This repo contains a boilerplate setup for spinning up 3 Docker containers: 
