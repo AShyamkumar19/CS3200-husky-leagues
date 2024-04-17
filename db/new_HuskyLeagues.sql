@@ -20,8 +20,8 @@ CREATE TABLE IF NOT EXISTS sports (
 );
 
 CREATE TABLE IF NOT EXISTS teams (
-    sportID int auto_increment,
-    teamID int,
+    sportID int,
+    teamID int auto_increment,
     name varchar(50),
     PRIMARY KEY (sportID, teamID),
     FOREIGN KEY (sportID) REFERENCES sports (sportID)
