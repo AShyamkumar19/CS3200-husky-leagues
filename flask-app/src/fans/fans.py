@@ -18,10 +18,8 @@ def add_fan_player(fanID, memberID):
 @fans.route('/fans/<fanID>/<teamID>/<sportID>', methods=['POST'])
 def add_fan_team(fanID, teamID, sportID):
     cursor = db.get_db().cursor()
-    cursor.execute('''
-                   INSERT INTO fans (fanID, teamID, sportID)
-                   VALUES (%s, %s);
-                   ''', fanID, teamID, sportID)
+    cursor.execute(f"INSERT INTO fans (teamID, sportID)
+                   VALUES ({teamID}, {sportID}); ")
     
     cursor = db.get_db().commit()
     return make_response(jsonify('New team followed'), 200)
