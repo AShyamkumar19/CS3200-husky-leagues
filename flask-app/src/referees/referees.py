@@ -152,17 +152,17 @@ def delete_ref_game(refID, gameID):
 
 # Get all referees (w/o email) from the DB
 @referees.route('/referees_sports/<refID>', methods=['GET'])
-def get_ref_sports(sportID):
+def get_ref_sports(refID):
     cursor = db.get_db().cursor()
 
     query = f"SELECT s.name, s.sportID, s.rules \
               FROM referees AS r \
               JOIN chooses AS c ON c.refID = r.refID \
               JOIN sports AS s ON s.sportID = c.sportID \
-              WHERE r.refID = {sportID};"
+              WHERE r.refID = {refID};"
      
     cursor.execute(query)
-    
+
     row_headers = [x[0] for x in cursor.description]
     json_data = []
     theData = cursor.fetchall()
