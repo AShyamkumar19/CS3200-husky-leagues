@@ -126,6 +126,20 @@ def delete_referee(refID):
     cursor = db.get_db().commit()
     return make_response(jsonify('Referee deleted'), 200)
 
+# Delete a referee from the a sport
+@referees.route('/chooses/<refID>/<sportID>', methods=['DELETE'])
+def delete_referee_sport(refID, sportID):
+    cursor = db.get_db().cursor()
+
+    query = f"DELETE FROM \
+              chooses \
+              WHERE refID={refID} AND sportID={sportID}"
+
+    cursor.execute(query)
+    
+    cursor = db.get_db().commit()
+    return make_response(jsonify('Referee deleted'), 200)
+
 # Assign a referee to a game
 @referees.route('/officiates/<refID>/<gameID>', methods=['POST'])
 def assign_ref(refID, gameID):
