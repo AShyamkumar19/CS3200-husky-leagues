@@ -1,4 +1,5 @@
 ## This is the repository for our project: Husky Leagues
+By Dylan Weinmann, Arinjay Singh, Kenneth Aldridge, Aarav Shyamkumar
 
 # MySQL + Flask Boilerplate Project
 
