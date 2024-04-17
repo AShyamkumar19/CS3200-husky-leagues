@@ -43,7 +43,7 @@ def get_specific_event(eventID):
 def get_sponsor_events(sponsorID):
     cursor = db.get_db().cursor()
     cursor.execute('''
-                   SELECT e
+                   SELECT *
                    FROM events as e
                    WHERE e.sponsorID = %s;
                    ''', sponsorID)
@@ -72,9 +72,9 @@ def update_specific_event(eventID):
 
     cursor.execute('''
                    UPDATE events
-                    SET description = %s, dateTime = %s, location = %s, sponsorID = %s
-                    WHERE eventID = %s;
-                    ''', (description, dateTime, location, sponsorID, eventID))
+                   SET description = %s, dateTime = %s, location = %s, sponsorID = %s
+                   WHERE eventID = %s;
+                   ''', (description, dateTime, location, sponsorID, eventID))
     
     cursor = db.get_db().commit()
     return make_response(jsonify('Event updated'), 200)
