@@ -81,7 +81,7 @@ def get_role_desc(roleID):
 
 # Update roleID
 @roles.route('/roles/<roleID>', methods=['PUT'])
-def update_specific_role(roleID):
+def update_roleID(roleID):
     cursor = db.get_db().cursor()
     cursor.execute('''
                    UPDATE roles
