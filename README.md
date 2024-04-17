@@ -1,3 +1,8 @@
+## This is the repository for our project: Husky Leagues
+By Dylan Weinmann, Arinjay Singh, Kenneth Aldridge, Aarav Shyamkumar
+
+The application is a comprehensive platform designed to streamline the experience of participating in and following recreational sports leagues at Northeastern University. Catering to a diverse user base that includes team members, fans, referees, sponsors, and administrators, it serves the primary purpose of making recreational sports leagues more organized and accessible for everyone involved. Fans can easily follow their friends, their friends’ teams, or any sport that piques their interest. The application boasts a rich repository of game histories, showcasing team records and championship titles across all sports, enhancing the engagement and connection of the university's sports community. Moreover, it facilitates local businesses in sponsoring teams, thereby fostering a strong link between the university and the local business ecosystem. A central feature of the application is its comprehensive game details section, which provides essential information on facilities, schedules, and contact details for each party involved, ensuring a seamless and integrated sports league experience at Northeastern.
+
 # MySQL + Flask Boilerplate Project
 
 This repo contains a boilerplate setup for spinning up 3 Docker containers: 
