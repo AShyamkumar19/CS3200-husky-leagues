@@ -44,8 +44,8 @@ def get_sponsor_events(sponsorID):
     cursor = db.get_db().cursor()
     cursor.execute('''
                    SELECT *
-                   FROM events as e
-                   WHERE e.sponsorID = %s;
+                   FROM events
+                   WHERE sponsorID = %s;
                    ''', sponsorID)
     row_headers = [x[0] for x in cursor.description]
     json_data = []
