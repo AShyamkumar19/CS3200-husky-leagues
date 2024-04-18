@@ -23,13 +23,14 @@ def get_referees():
 @referees.route('/referees_game/<gameID>', methods=['GET'])
 def get_game_referee(gameID):
     cursor = db.get_db().cursor()
-    cursor.execute('''
-                   SELECT firstName AS First_Name, lastName as 'Last_Name', email
-                   FROM referees as r
-                   JOIN officiates o ON r.refID = o.refID
-                   JOIN games g ON o.gameID = g.gameID
-                   WHERE g.gameID = %s;
-                   ''', gameID)
+
+    query = f"SELECT r.firstName AS First_Name, r.lastName as 'Last_Name', r.email \
+                   FROM referees as r \
+                   JOIN officiates AS o ON r.refID = o.refID \
+                   JOIN games AS g ON o.gameID = g.gameID \
+                   WHERE g.gameID = {gameID}" 
+                   
+    cursor.execute(query)
     row_headers = [x[0] for x in cursor.description]
     json_data = []
     theData = cursor.fetchall()

@@ -220,7 +220,7 @@ def get_games_team(teamID, sportID):
 
 
 # Get info for a specific game
-@games.route('/games_refs/<refID>', methods=['GET'])
+@games.route('/games_ref/<refID>', methods=['GET'])
 def get__refs_games(refID):
     # get a cursor object from the database
     cursor = db.get_db().cursor()
