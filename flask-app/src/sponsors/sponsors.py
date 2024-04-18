@@ -50,8 +50,7 @@ def add_sponsor():
     cursor = db.get_db().cursor()
 
     # create the query
-    query = f"INSERT INTO sponsors (name, email) \
-              VALUES ({name}, {email})"
+    query = f"INSERT INTO sponsors (name, email) VALUES ({name}, {email})"
     
     cursor.execute(query)
     
