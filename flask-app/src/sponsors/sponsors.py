@@ -60,7 +60,7 @@ def add_sponsor():
     return make_response(jsonify('Sponsor created'), 200)
 
 # edit info for a specific sponsor
-@sponsors.route('/teams/<sponsorID>', methods=['PUT'])
+@sponsors.route('/sponsors/<sponsorID>', methods=['PUT'])
 def update_sponsor(sponsorID):
     data = request.get_json()
     current_app.logger.info(data)
