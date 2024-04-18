@@ -95,7 +95,7 @@ def update_game(gameID):
     return make_response(jsonify('Game updated'), 200)
 
 # Delete a game
-@games.route('/team_members/<gameID>', methods=['DELETE'])
+@games.route('/games/<gameID>', methods=['DELETE'])
 def delete_game(gameID):
     cursor = db.get_db().cursor()
     cursor.execute('''
@@ -220,7 +220,7 @@ def get_games_team(teamID, sportID):
 
 
 # Get info for a specific game
-@games.route('/games/<refID>', methods=['GET'])
+@games.route('/games_refs/<refID>', methods=['GET'])
 def get__refs_games(refID):
     # get a cursor object from the database
     cursor = db.get_db().cursor()
