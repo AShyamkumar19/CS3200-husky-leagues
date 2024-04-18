@@ -12,25 +12,17 @@ def get_sponsors():
     cursor = db.get_db().cursor()
  
     # create a query to get sponsors
-    query = """SELECT * FROM sponsors"""
+    cursor.execute("""SELECT * FROM sponsors""")
     
-    # use cursor to query the database for a list of games
-    cursor.execute(query)
-
-    # grab the column headers from the returned data
-    column_headers = [x[0] for x in cursor.description]
-
-    # create an empty dictionary object to use in 
-    # putting column headers together with data
+    row_headers = [x[0] for x in cursor.description]
     json_data = []
-
-    # fetch all the data from the cursor
     theData = cursor.fetchall()
-
-    # for each of the rows, zip the data elements together with
-    # the column headers. 
     for row in theData:
-        json_data.append(dict(zip(column_headers, row)))
+        json_data.append(dict(zip(row_headers, row)))
+    the_response = make_response(jsonify(json_data))
+    the_response.status_code = 200
+    the_response.mimetype = 'application/json'
+    return the_response
 
 # Delete a sponsor
 @sponsors.route('/sponsors/<sponsorID>', methods=['DELETE'])
@@ -124,30 +116,22 @@ def get_sponsorship_sponsor(sponsorID):
     cursor = db.get_db().cursor()
  
     # create a query to get sponsors
-    query = f"SELECT s1.name, t.name, s2.name, s3.money \
+    cursor.execute(f"SELECT s1.name, t.name, s2.name, s3.money \
               FROM sponsors AS s1 \
               JOIN sponsorships AS s3 ON s1.sponsorID = s3.sponsorID \
               JOIN teams AS t ON t.teamID = s3.teamID AND t.sportID = s3.sportID \
               JOIN sports AS s2 ON t.sportID = s2.sportID \
-              WHERE s1.sponsorID={sponsorID}"
+              WHERE s1.sponsorID={sponsorID}")
     
-    # use cursor to query the database for a list of games
-    cursor.execute(query)
-
-    # grab the column headers from the returned data
-    column_headers = [x[0] for x in cursor.description]
-
-    # create an empty dictionary object to use in 
-    # putting column headers together with data
+    row_headers = [x[0] for x in cursor.description]
     json_data = []
-
-    # fetch all the data from the cursor
     theData = cursor.fetchall()
-
-    # for each of the rows, zip the data elements together with
-    # the column headers. 
     for row in theData:
-        json_data.append(dict(zip(column_headers, row)))
+        json_data.append(dict(zip(row_headers, row)))
+    the_response = make_response(jsonify(json_data))
+    the_response.status_code = 200
+    the_response.mimetype = 'application/json'
+    return the_response
 
 # Return info for a specific sponsorship
 @sponsors.route('/sponsorship/<sponsorID>/<teamID>/<sportID>', methods=['GET'])
