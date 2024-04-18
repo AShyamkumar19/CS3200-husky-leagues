@@ -41,9 +41,9 @@ def get_games():
     the_response.mimetype = 'application/json'
     return the_response
 
-# Add a new team member to the team_members table
+# Add a new game
 @games.route('/games', methods=['POST'])
-def add_team_member():
+def add_game():
     data = request.get_json()
     current_app.logger.info(data)
     
@@ -145,7 +145,7 @@ def get_games_sports(sportID):
     return the_response
 
 # Get info for a specific game
-@games.route('/games/<gameID>', methods=['GET'])
+@games.route('/games_game/<gameID>', methods=['GET'])
 def get_game(gameID):
     # get a cursor object from the database
     cursor = db.get_db().cursor()
