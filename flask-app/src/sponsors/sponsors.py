@@ -39,13 +39,8 @@ def delete_sponsor(sponsorID):
     return make_response(jsonify('Sponsor deleted'), 200)
 
 # add a sponsor
-@sponsors.route('/sponsors', methods=['POST'])
-def add_sponsor():
-    data = request.get_json()
-    current_app.logger.info(data)
-    
-    name = data['name']
-    email = data['email']
+@sponsors.route('/sponsors_new/<name>/<email>', methods=['POST'])
+def add_sponsor(name, email):
     
     cursor = db.get_db().cursor()
 
