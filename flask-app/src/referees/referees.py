@@ -20,7 +20,7 @@ def get_referees():
     return the_response 
 
 # Get referee details for a specific game
-@referees.route('/referees_game/<gameID>', methods=['GET'])
+@referees.route('/officiates/<gameID>', methods=['GET'])
 def get_game_referee(gameID):
     cursor = db.get_db().cursor()
 
@@ -46,7 +46,7 @@ def get_game_referee(gameID):
 def get_referee(refID):
     cursor = db.get_db().cursor()
     cursor.execute('''
-                   SELECT firstName AS First_Name, lastName as 'Last_Name', email
+                   SELECT *
                    FROM referees as r
                    WHERE r.refID = %s;
                    ''', refID)
