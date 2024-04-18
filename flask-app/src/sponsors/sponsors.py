@@ -70,9 +70,7 @@ def update_sponsor(sponsorID):
 
     cursor = db.get_db().cursor()
 
-    query = f"UPDATE sponsors \
-              SET name={name}, email={email} \
-              WHERE sponsorID={sponsorID}"
+    query = f"UPDATE sponsors SET name={name}, email={email} WHERE sponsorID={sponsorID};"
 
     cursor.execute(query)
     
