@@ -39,15 +39,15 @@ def delete_sponsor(sponsorID):
     return make_response(jsonify('Sponsor deleted'), 200)
 
 # add a sponsor
-@sponsors.route('/sponsors_new/<name>/<email>', methods=['POST'])
-def add_sponsor(name, email):
+@sponsors.route('/sponsors_new/<new_name>/<new_email>', methods=['POST'])
+def add_sponsor(new_name, new_email):
     
     cursor = db.get_db().cursor()
 
     # create the query
-    query = f"INSERT INTO sponsors (name, email) VALUES ({name}, {email})"
+    query = "INSERT INTO sponsors (name, email) VALUES (%s, %s)"
     
-    cursor.execute(query)
+    cursor.execute(query, (new_name, new_email))
     
     cursor = db.get_db().commit()
 
