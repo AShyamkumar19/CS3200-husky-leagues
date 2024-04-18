@@ -42,11 +42,11 @@ def get_specific_event(eventID):
 @events.route('/events/<sponsorID>', methods=['GET'])
 def get_sponsor_events(sponsorID):
     cursor = db.get_db().cursor()
-    cursor.execute(f'''
+    cursor.execute('''
                    SELECT *
                    FROM events as e
-                   WHERE e.sponsorID = {sponsorID};
-                   ''')
+                   WHERE e.sponsorID = %s;
+                   ''', sponsorID)
     row_headers = [x[0] for x in cursor.description]
     json_data = []
     theData = cursor.fetchall()
